@@ -1,0 +1,19 @@
+import { redirect } from "next/navigation";
+import { createClient } from "@/lib/supabase/server";
+import { BudgetForm } from "@/components/budget/BudgetForm";
+
+export default async function BudgetPage() {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) redirect("/login");
+
+  const yearMonth =
+    new Date().getFullYear() +
+    "-" +
+    String(new Date().getMonth() + 1).padStart(2, "0");
+
+  return <BudgetForm userId={user.id} yearMonth={yearMonth} />;
+}
