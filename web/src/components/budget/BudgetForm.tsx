@@ -31,16 +31,19 @@ export function BudgetForm({ userId, yearMonth }: Props) {
   });
 
   useEffect(() => {
+    if (!categories || categories.length === 0) return;
+    
     const map: Record<string, string> = {};
     for (const b of budgets) {
       const catId = (b as { category_id: string }).category_id ?? (b as { category?: { id: string } }).category?.id;
       if (catId) map[catId] = String((b as { amount: number }).amount ?? 0);
     }
-    for (const c of categories ?? []) {
+    for (const c of categories) {
       if (!(c.id in map)) map[c.id] = "0";
     }
     setAmounts(map);
-  }, [budgets, categories]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [budgets.length, categories?.length]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();

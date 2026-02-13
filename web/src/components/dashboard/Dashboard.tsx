@@ -15,15 +15,33 @@ type Props = {
 };
 
 export function Dashboard({ userId, yearMonth, userEmail }: Props) {
-  const { data, isLoading } = useDashboard(userId, yearMonth);
+  const { data, isLoading, error } = useDashboard(userId, yearMonth);
   const { expenses } = useExpenses(userId, yearMonth);
   const { signOut } = useAuth();
   const [showAddModal, setShowAddModal] = useState(false);
 
-  if (isLoading || !data) {
+  if (isLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <div className="text-emerald-600">로딩 중...</div>
+      </div>
+    );
+  }
+
+  if (error || !data) {
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center gap-4 px-4">
+        <p className="text-center text-red-600">
+          데이터를 불러올 수 없습니다. Supabase SQL Editor에서 마이그레이션을 실행했는지 확인하세요.
+        </p>
+        <p className="text-center text-sm text-gray-500">
+          supabase/migrations/20250213000000_initial_schema.sql
+        </p>
+        {error && (
+          <p className="max-w-md text-center text-xs text-gray-500">
+            {String(error)}
+          </p>
+        )}
       </div>
     );
   }
@@ -87,6 +105,39 @@ export function Dashboard({ userId, yearMonth, userEmail }: Props) {
             <p className="text-center font-medium text-amber-700">
               🔥 {data.streakDays}일 연속 기록 중!
             </p>
+          </section>
+        )}
+
+        {/* 카테고리별 예산 vs 실지출 */}
+        {data.byCategory.length > 0 && (
+          <section>
+            <h2 className="mb-3 text-sm font-medium text-gray-700">
+              카테고리별 절약 현황
+            </h2>
+            <div className="space-y-2">
+              {data.byCategory
+                .filter((c) => c.budget > 0 || c.actual > 0)
+                .map((c) => (
+                    <div
+                      key={c.categoryId}
+                      className="flex items-center justify-between rounded-lg border border-gray-100 bg-white px-4 py-2"
+                    >
+                      <span className="text-sm font-medium text-gray-700">
+                        {c.categoryName}
+                      </span>
+                      <div className="text-right text-sm">
+                        <span className="text-gray-500">
+                          {formatKRW(c.actual)} / {formatKRW(c.budget)}
+                        </span>
+                        {c.saved > 0 && (
+                          <span className="ml-2 text-emerald-600">
+                            +{formatKRW(c.saved)}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+            </div>
           </section>
         )}
 
