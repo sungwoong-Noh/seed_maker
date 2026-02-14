@@ -4,6 +4,10 @@ import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { createClient } from "@/lib/supabase/client";
 import { useExpenses } from "@/hooks/useExpenses";
+import { showSuccess, showError } from "@/lib/toast";
+import { Modal, ModalHeader, ModalBody } from "@/components/common/Modal";
+import { Input } from "@/components/common/Input";
+import { Button } from "@/components/common/Button";
 
 type Props = {
   userId: string;
@@ -48,7 +52,10 @@ export function AddExpenseModal({
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const num = parseInt(amount.replace(/\D/g, ""), 10);
-    if (!num || !categoryId) return;
+    if (!num || !categoryId) {
+      showError('금액과 카테고리를 입력해주세요');
+      return;
+    }
 
     try {
       await addExpense({
@@ -57,56 +64,38 @@ export function AddExpenseModal({
         spent_at: spentAt,
         memo: memo || undefined,
       });
+      showSuccess('지출이 추가되었습니다');
       onSuccess();
     } catch (err) {
-      console.error(err);
+      console.error('[AddExpenseModal] Error:', err);
+      showError('지출 추가에 실패했습니다');
     }
   }
 
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-end justify-center bg-black/40 sm:items-center"
-      onClick={onClose}
-    >
-      <div
-        className="w-full max-w-sm rounded-t-2xl bg-white p-6 shadow-xl sm:rounded-2xl"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-bold text-gray-800">지출 추가</h2>
-          <button
-            onClick={onClose}
-            className="text-gray-500 hover:text-gray-700"
-          >
-            ✕
-          </button>
-        </div>
-
+    <Modal isOpen={true} onClose={onClose} size="sm">
+      <ModalHeader onClose={onClose}>지출 추가</ModalHeader>
+      
+      <ModalBody>
         <form onSubmit={handleSubmit} className="space-y-4">
+          <Input
+            label="금액"
+            type="text"
+            inputMode="numeric"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value.replace(/\D/g, ""))}
+            placeholder="8500"
+            required
+          />
+          
           <div>
-            <label className="block text-sm font-medium text-gray-700">
-              금액
-            </label>
-            <input
-              type="text"
-              inputMode="numeric"
-              value={amount}
-              onChange={(e) =>
-                setAmount(e.target.value.replace(/\D/g, ""))
-              }
-              placeholder="8500"
-              className="mt-1 block w-full rounded-lg border border-gray-200 px-3 py-2 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
-              required
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              카테고리
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              카테고리 <span className="text-red-500 ml-1">*</span>
             </label>
             <select
               value={categoryId}
               onChange={(e) => setCategoryId(e.target.value)}
-              className="mt-1 block w-full rounded-lg border border-gray-200 px-3 py-2 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+              className="block w-full rounded-lg border border-gray-200 px-3 py-2 text-base transition-colors focus:outline-none focus:ring-2 focus:ring-offset-0 focus:border-emerald-500 focus:ring-emerald-500"
             >
               {categories?.map((c) => (
                 <option key={c.id} value={c.id}>
@@ -115,37 +104,27 @@ export function AddExpenseModal({
               ))}
             </select>
           </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              일자
-            </label>
-            <input
-              type="date"
-              value={spentAt}
-              onChange={(e) => setSpentAt(e.target.value)}
-              className="mt-1 block w-full rounded-lg border border-gray-200 px-3 py-2 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              메모 (선택)
-            </label>
-            <input
-              type="text"
-              value={memo}
-              onChange={(e) => setMemo(e.target.value)}
-              placeholder="점심"
-              className="mt-1 block w-full rounded-lg border border-gray-200 px-3 py-2 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
-            />
-          </div>
-          <button
-            type="submit"
-            className="w-full rounded-lg bg-emerald-600 py-2.5 font-medium text-white hover:bg-emerald-700"
-          >
+          
+          <Input
+            label="일자"
+            type="date"
+            value={spentAt}
+            onChange={(e) => setSpentAt(e.target.value)}
+          />
+          
+          <Input
+            label="메모 (선택)"
+            type="text"
+            value={memo}
+            onChange={(e) => setMemo(e.target.value)}
+            placeholder="점심"
+          />
+          
+          <Button type="submit" className="w-full" size="lg">
             저장
-          </button>
+          </Button>
         </form>
-      </div>
-    </div>
+      </ModalBody>
+    </Modal>
   );
 }

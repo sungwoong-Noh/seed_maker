@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { createClient } from "@/lib/supabase/client";
 import { useBudgets } from "@/hooks/useBudgets";
 import { formatKRW } from "@/lib/format";
+import { showSuccess, showError } from "@/lib/toast";
 
 type Props = {
   userId: string;
@@ -54,29 +55,50 @@ export function BudgetForm({ userId, yearMonth }: Props) {
       amount: parseInt(amounts[c.id]?.replace(/\D/g, "") || "0", 10),
     }));
 
-    await upsertBudgets(items);
-    setSaved(true);
-    setTimeout(() => setSaved(false), 2000);
+    try {
+      await upsertBudgets(items);
+      showSuccess('예산이 저장되었습니다');
+      setSaved(true);
+      setTimeout(() => setSaved(false), 2000);
+    } catch (err) {
+      console.error('[BudgetForm] Error:', err);
+      showError('예산 저장에 실패했습니다');
+    }
   }
 
   if (isLoading || !categories) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
-        <div className="text-emerald-600">로딩 중...</div>
+      <div className="mx-auto max-w-lg pb-8">
+        <header className="sticky top-0 z-10 flex items-center justify-between border-b border-emerald-100 bg-white/90 px-4 py-3 backdrop-blur">
+          <Link href="/" className="text-lg font-bold text-emerald-800">
+            🌱 Seed Maker
+          </Link>
+          <h2 className="text-sm font-medium text-gray-700">예산 설정</h2>
+        </header>
+        <main className="px-4 py-6">
+          <div className="space-y-4">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <div key={i} className="rounded-lg border border-gray-200 p-4">
+                <div className="h-4 w-20 bg-gray-200 rounded mb-2 animate-pulse" />
+                <div className="h-10 w-full bg-gray-200 rounded animate-pulse" />
+              </div>
+            ))}
+          </div>
+        </main>
       </div>
     );
   }
 
   return (
-    <div className="mx-auto max-w-lg pb-8">
+    <div className="mx-auto max-w-lg lg:max-w-4xl pb-8">
       <header className="sticky top-0 z-10 flex items-center justify-between border-b border-emerald-100 bg-white/90 px-4 py-3 backdrop-blur">
-        <Link href="/" className="text-lg font-bold text-emerald-800">
+        <Link href="/" className="text-lg font-bold text-emerald-800 hover:text-emerald-900 transition-colors">
           🌱 Seed Maker
         </Link>
         <h2 className="text-sm font-medium text-gray-700">예산 설정</h2>
       </header>
 
-      <main className="px-4 py-6">
+      <main className="px-4 py-6 md:grid md:grid-cols-2 md:gap-4">
         <p className="mb-4 text-sm text-gray-600">
           {yearMonth} · 카테고리별 월 예산을 입력하세요
         </p>

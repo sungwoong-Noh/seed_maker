@@ -6,6 +6,7 @@ import { useDividendGoal } from "@/hooks/useDividendGoal";
 import { useDashboard } from "@/hooks/useDashboard";
 import { formatKRW } from "@/lib/format";
 import { simulateMonthsToGoal } from "@/lib/simulation";
+import { showSuccess, showError } from "@/lib/toast";
 
 type Props = {
   userId: string;
@@ -31,17 +32,23 @@ export function GoalForm({ userId, yearMonth }: Props) {
     e.preventDefault();
     const target = parseInt(targetMonthlyDividend.replace(/\D/g, ""), 10);
     const extra = parseInt(extraMonthlyDeposit.replace(/\D/g, "") || "0", 10);
-    if (!target) return;
+    
+    if (!target) {
+      showError('목표 월 배당금을 입력해주세요');
+      return;
+    }
 
     try {
       await upsertGoal({
         target_monthly_dividend: target,
         extra_monthly_deposit: extra,
       });
+      showSuccess('목표가 저장되었습니다');
       setSaved(true);
       setTimeout(() => setSaved(false), 2000);
     } catch (err) {
-      console.error(err);
+      console.error('[GoalForm] Error:', err);
+      showError('목표 저장에 실패했습니다');
     }
   }
 
@@ -58,22 +65,44 @@ export function GoalForm({ userId, yearMonth }: Props) {
 
   if (isLoading) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
-        <div className="text-emerald-600">로딩 중...</div>
+      <div className="mx-auto max-w-lg pb-24">
+        <header className="sticky top-0 z-10 flex items-center justify-between border-b border-emerald-100 bg-white/90 px-4 py-3 backdrop-blur">
+          <Link href="/" className="text-lg font-bold text-emerald-800">
+            🌱 Seed Maker
+          </Link>
+          <h2 className="text-sm font-medium text-gray-700">목표 설정</h2>
+        </header>
+        <main className="px-4 py-6 space-y-6">
+          <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
+            <div className="h-4 w-24 bg-gray-200 rounded mb-3 animate-pulse" />
+            <div className="h-8 w-32 bg-gray-200 rounded mb-2 animate-pulse" />
+            <div className="h-3 w-40 bg-gray-200 rounded animate-pulse" />
+          </div>
+          <div className="space-y-4">
+            <div className="rounded-lg border border-gray-200 p-4">
+              <div className="h-4 w-32 bg-gray-200 rounded mb-2 animate-pulse" />
+              <div className="h-10 w-full bg-gray-200 rounded animate-pulse" />
+            </div>
+            <div className="rounded-lg border border-gray-200 p-4">
+              <div className="h-4 w-32 bg-gray-200 rounded mb-2 animate-pulse" />
+              <div className="h-10 w-full bg-gray-200 rounded animate-pulse" />
+            </div>
+          </div>
+        </main>
       </div>
     );
   }
 
   return (
-    <div className="mx-auto max-w-lg pb-24">
+    <div className="mx-auto max-w-lg lg:max-w-4xl pb-24">
       <header className="sticky top-0 z-10 flex items-center justify-between border-b border-emerald-100 bg-white/90 px-4 py-3 backdrop-blur">
-        <Link href="/" className="text-lg font-bold text-emerald-800">
+        <Link href="/" className="text-lg font-bold text-emerald-800 hover:text-emerald-900 transition-colors">
           🌱 Seed Maker
         </Link>
         <h2 className="text-sm font-medium text-gray-700">목표 설정</h2>
       </header>
 
-      <main className="px-4 py-6 space-y-6">
+      <main className="px-4 py-6 space-y-6 lg:grid lg:grid-cols-2 lg:gap-6 lg:space-y-0">
         <div className="rounded-2xl border border-amber-100 bg-amber-50/50 p-4 text-sm text-amber-800">
           * 시뮬레이션은 참고용입니다. 평균 배당 수익률 3% 가정.
         </div>
