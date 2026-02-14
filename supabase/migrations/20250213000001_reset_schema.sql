@@ -1,3 +1,10 @@
+-- 기존 테이블 삭제 (역순으로)
+DROP TABLE IF EXISTS dividend_goals CASCADE;
+DROP TABLE IF EXISTS dividend_stocks CASCADE;
+DROP TABLE IF EXISTS expenses CASCADE;
+DROP TABLE IF EXISTS budgets CASCADE;
+DROP TABLE IF EXISTS categories CASCADE;
+
 -- categories (시드)
 CREATE TABLE categories (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
