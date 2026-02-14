@@ -121,7 +121,7 @@ export function AddExpenseModal({
           
           <button
             type="submit"
-            className="w-full h-12 rounded-lg bg-blue-600 flex items-center justify-center text-base font-semibold text-white hover:bg-blue-700 transition-colors"
+            className="w-full h-12 rounded-xl bg-emerald-600 flex items-center justify-center text-base font-semibold text-white hover:bg-emerald-700 transition-colors"
           >
             저장
           </button>

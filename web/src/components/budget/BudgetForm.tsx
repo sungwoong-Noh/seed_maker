@@ -142,13 +142,13 @@ export function BudgetForm({ userId, yearMonth }: Props) {
           <div className="pt-4 border-t border-gray-200">
             <div className="flex items-center justify-between rounded-xl bg-gray-50 min-h-[60px] px-4 mb-4">
               <span className="text-base font-semibold text-gray-900">총 예산:</span>
-              <span className="text-xl font-bold text-blue-600">{formatKRW(totalBudget)}</span>
+              <span className="text-xl font-bold text-emerald-600">{formatKRW(totalBudget)}</span>
             </div>
             
-            {/* 저장 버튼 - Pencil: height 48, #2563EB */}
+            {/* 저장 버튼 - 목표 페이지와 통일: emerald */}
             <button
               type="submit"
-              className="w-full h-12 rounded-lg bg-blue-600 flex items-center justify-center text-base font-semibold text-white hover:bg-blue-700 transition-colors"
+              className="w-full h-12 rounded-xl bg-emerald-600 flex items-center justify-center text-base font-semibold text-white hover:bg-emerald-700 transition-colors"
             >
               {saved ? "저장됨 ✓" : "저장"}
             </button>
