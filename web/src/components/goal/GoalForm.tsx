@@ -117,11 +117,11 @@ export function GoalForm({ userId, yearMonth }: Props) {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* 목표 월 배당금 입력 */}
-          <div className="space-y-2">
+          <div className="rounded-xl bg-white p-4 space-y-2">
             <label className="text-sm font-semibold text-gray-900">
               목표 월 배당금
             </label>
-            <div className="flex items-center gap-1 rounded-lg bg-gray-50 px-3 py-3">
+            <div className="flex items-center gap-1 rounded-lg bg-gray-50 px-3 py-2.5">
               <span className="text-base text-gray-500">₩</span>
               <input
                 type="text"
@@ -138,11 +138,11 @@ export function GoalForm({ userId, yearMonth }: Props) {
           </div>
 
           {/* 추가 월 납입액 입력 */}
-          <div className="space-y-2">
+          <div className="rounded-xl bg-white p-4 space-y-2">
             <label className="text-sm font-semibold text-gray-900">
               추가 월 납입액
             </label>
-            <div className="flex items-center gap-1 rounded-lg bg-gray-50 px-3 py-3">
+            <div className="flex items-center gap-1 rounded-lg bg-gray-50 px-3 py-2.5">
               <span className="text-base text-gray-500">₩</span>
               <input
                 type="text"

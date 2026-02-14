@@ -20,57 +20,35 @@ export function ExpenseList({ userId, yearMonth }: Props) {
   // 로딩 상태는 Suspense에서 처리
 
   return (
-    <div className="mx-auto max-w-lg md:max-w-3xl lg:max-w-5xl pb-24 min-h-screen bg-white">
+    <div className="mx-auto max-w-lg pb-24 min-h-screen bg-white">
       {/* 헤더 */}
-      <header className="sticky top-0 z-10 flex items-center justify-between bg-white px-4 md:px-6 lg:px-8 py-4 border-b border-gray-100">
-        <Link href="/" className="text-xl md:text-2xl font-semibold text-gray-900">
-          Seed Maker
-        </Link>
-        <h2 className="text-base font-medium text-gray-700">지출 목록</h2>
+      <header className="sticky top-0 z-10 flex items-center gap-3 bg-white px-4 py-4 border-b border-gray-100">
+        <Link href="/" className="text-2xl text-gray-900">←</Link>
+        <h1 className="text-xl font-semibold text-gray-900">지출 목록</h1>
       </header>
 
       {/* 메인 콘텐츠 */}
-      <main className="p-4">
+      <main className="p-4 space-y-4">
         {/* 지출 추가 버튼 */}
-        <div className="mb-4">
-          <button
-            onClick={() => setShowAdd(true)}
-            className="w-full rounded-xl bg-emerald-600 px-4 py-3 text-base font-semibold text-white hover:bg-emerald-700 transition-colors shadow-sm"
-          >
-            + 지출 추가
-          </button>
-        </div>
+        <button
+          onClick={() => setShowAdd(true)}
+          className="w-full rounded-xl bg-emerald-600 py-3 text-base font-semibold text-white hover:bg-emerald-700 transition-colors"
+        >
+          + 지출 추가
+        </button>
 
         {/* 지출 목록 */}
-        <div className="space-y-3">
+        <div className="space-y-4">
           {expenses.map((e: { id: string; amount: number; spent_at: string; memo?: string | null; category?: { name: string } }) => (
             <div
               key={e.id}
-              className="flex items-center justify-between bg-gray-50 rounded-xl px-4 md:px-6 lg:px-8 py-4 hover:bg-gray-100 transition-colors"
+              className="bg-gray-50 rounded-xl p-4 space-y-1"
             >
-              <div className="flex-1">
-                <p className="text-lg font-semibold text-gray-900">{formatKRW(e.amount)}</p>
-                <p className="text-sm text-gray-600 mt-0.5">
-                  {(e.category as { name?: string })?.name ?? "-"} · {e.spent_at}
-                  {e.memo ? ` · ${e.memo}` : ""}
-                </p>
-              </div>
-              <button
-                onClick={async () => {
-                  if (confirm("삭제할까요?")) {
-                    try {
-                      await deleteExpense(e.id);
-                      showSuccess('지출이 삭제되었습니다');
-                    } catch (err) {
-                      console.error('[ExpenseList] Delete Error:', err);
-                      showError('지출 삭제에 실패했습니다');
-                    }
-                  }
-                }}
-                className="ml-4 text-sm font-medium text-red-500 hover:text-red-700 transition-colors"
-              >
-                삭제
-              </button>
+              <p className="text-lg font-semibold text-gray-900">{formatKRW(e.amount)}</p>
+              <p className="text-sm text-gray-600">
+                {(e.category as { name?: string })?.name ?? "-"} · {e.spent_at}
+                {e.memo ? ` · ${e.memo}` : ""}
+              </p>
             </div>
           ))}
           
