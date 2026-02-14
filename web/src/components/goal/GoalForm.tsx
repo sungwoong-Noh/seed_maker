@@ -67,27 +67,23 @@ export function GoalForm({ userId, yearMonth }: Props) {
   if (isLoading) {
     return (
       <div className="mx-auto max-w-lg pb-24">
-        <header className="sticky top-0 z-10 flex items-center justify-between border-b border-emerald-100 bg-white/90 px-4 py-3 backdrop-blur">
-          <Link href="/" className="text-lg font-bold text-emerald-800">
-            🌱 Seed Maker
-          </Link>
-          <h2 className="text-sm font-medium text-gray-700">목표 설정</h2>
+        <header className="sticky top-0 z-10 flex items-center gap-3 bg-white px-4 py-4 border-b border-gray-100">
+          <Link href="/" className="text-2xl text-gray-900">←</Link>
+          <h1 className="text-xl font-semibold text-gray-900">목표 설정</h1>
         </header>
-        <main className="px-4 py-6 space-y-6">
-          <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-            <div className="h-4 w-24 bg-gray-200 rounded mb-3 animate-pulse" />
-            <div className="h-8 w-32 bg-gray-200 rounded mb-2 animate-pulse" />
+        <main className="px-4 py-6 space-y-4">
+          <div className="rounded-xl bg-gray-50 p-5 space-y-2">
+            <div className="h-4 w-24 bg-gray-200 rounded animate-pulse" />
+            <div className="h-8 w-32 bg-gray-200 rounded animate-pulse" />
             <div className="h-3 w-40 bg-gray-200 rounded animate-pulse" />
           </div>
-          <div className="space-y-4">
-            <div className="rounded-lg border border-gray-200 p-4">
-              <div className="h-4 w-32 bg-gray-200 rounded mb-2 animate-pulse" />
-              <div className="h-10 w-full bg-gray-200 rounded animate-pulse" />
-            </div>
-            <div className="rounded-lg border border-gray-200 p-4">
-              <div className="h-4 w-32 bg-gray-200 rounded mb-2 animate-pulse" />
-              <div className="h-10 w-full bg-gray-200 rounded animate-pulse" />
-            </div>
+          <div className="space-y-2">
+            <div className="h-4 w-32 bg-gray-200 rounded animate-pulse" />
+            <div className="h-10 w-full bg-gray-100 rounded-lg animate-pulse" />
+          </div>
+          <div className="space-y-2">
+            <div className="h-4 w-32 bg-gray-200 rounded animate-pulse" />
+            <div className="h-10 w-full bg-gray-100 rounded-lg animate-pulse" />
           </div>
         </main>
       </div>
@@ -95,83 +91,86 @@ export function GoalForm({ userId, yearMonth }: Props) {
   }
 
   return (
-    <div className="mx-auto max-w-lg lg:max-w-4xl pb-24">
-      <header className="sticky top-0 z-10 flex items-center justify-between border-b border-emerald-100 bg-white/90 px-4 py-3 backdrop-blur">
-        <Link href="/" className="text-lg font-bold text-emerald-800 hover:text-emerald-900 transition-colors">
-          🌱 Seed Maker
-        </Link>
-        <h2 className="text-sm font-medium text-gray-700">목표 설정</h2>
+    <div className="mx-auto max-w-lg pb-24">
+      <header className="sticky top-0 z-10 flex items-center gap-3 bg-white px-4 py-4 border-b border-gray-100">
+        <Link href="/" className="text-2xl text-gray-900">←</Link>
+        <h1 className="text-xl font-semibold text-gray-900">목표 설정</h1>
       </header>
 
-      <main className="px-4 py-6 space-y-6 lg:grid lg:grid-cols-2 lg:gap-6 lg:space-y-0">
-        <div className="rounded-2xl border border-amber-100 bg-amber-50/50 p-4 text-sm text-amber-800">
-          * 시뮬레이션은 참고용입니다. 평균 배당 수익률 3% 가정.
-        </div>
+      <main className="px-4 py-6 space-y-4">
+        {/* 목표 달성까지 카드 */}
+        {target > 0 && monthsToGoal !== null && (
+          <div className="rounded-xl bg-gray-50 p-5 space-y-2">
+            <p className="text-base font-semibold text-gray-900">목표 달성까지</p>
+            <p className="text-[32px] font-bold text-emerald-600">
+              {monthsToGoal === 0 ? "🎉 달성!" : `${monthsToGoal}개월`}
+            </p>
+            {monthsToGoal > 0 && (
+              <p className="text-sm text-gray-500">
+                {new Date(new Date().setMonth(new Date().getMonth() + monthsToGoal)).getFullYear()}년{" "}
+                {new Date(new Date().setMonth(new Date().getMonth() + monthsToGoal)).getMonth() + 1}월 예상
+              </p>
+            )}
+            <p className="text-xs text-gray-500">* 평균 배당 수익률 3% 가정</p>
+          </div>
+        )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              목표 월 배당금 (원) *
+          {/* 목표 월 배당금 입력 */}
+          <div className="space-y-2">
+            <label className="text-sm font-semibold text-gray-900">
+              목표 월 배당금
             </label>
-            <input
-              type="text"
-              inputMode="numeric"
-              value={targetMonthlyDividend}
-              onChange={(e) =>
-                setTargetMonthlyDividend(e.target.value.replace(/\D/g, ""))
-              }
-              placeholder="1000000"
-              className="mt-1 block w-full rounded-lg border border-gray-200 px-3 py-2 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
-              required
-            />
+            <div className="flex items-center gap-1 rounded-lg border border-gray-200 bg-gray-50 px-3 py-3">
+              <span className="text-base text-gray-500">₩</span>
+              <input
+                type="text"
+                inputMode="numeric"
+                value={targetMonthlyDividend}
+                onChange={(e) =>
+                  setTargetMonthlyDividend(e.target.value.replace(/\D/g, ""))
+                }
+                placeholder="1,000,000"
+                className="flex-1 text-base text-gray-900 bg-transparent outline-none"
+                required
+              />
+            </div>
           </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              추가 월 납입액 (원)
+
+          {/* 추가 월 납입액 입력 */}
+          <div className="space-y-2">
+            <label className="text-sm font-semibold text-gray-900">
+              추가 월 납입액
             </label>
-            <input
-              type="text"
-              inputMode="numeric"
-              value={extraMonthlyDeposit}
-              onChange={(e) =>
-                setExtraMonthlyDeposit(e.target.value.replace(/\D/g, ""))
-              }
-              placeholder="0"
-              className="mt-1 block w-full rounded-lg border border-gray-200 px-3 py-2 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
-            />
-            <p className="mt-0.5 text-xs text-gray-500">
-              씨앗돈 외 추가로 투자할 금액
-            </p>
+            <div className="flex items-center gap-1 rounded-lg border border-gray-200 bg-gray-50 px-3 py-3">
+              <span className="text-base text-gray-500">₩</span>
+              <input
+                type="text"
+                inputMode="numeric"
+                value={extraMonthlyDeposit}
+                onChange={(e) =>
+                  setExtraMonthlyDeposit(e.target.value.replace(/\D/g, ""))
+                }
+                placeholder="0"
+                className="flex-1 text-base text-gray-900 bg-transparent outline-none"
+              />
+            </div>
           </div>
-          <div className="rounded-lg bg-gray-50 p-3 text-sm text-gray-600">
-            <p>이번 달 씨앗돈: {formatKRW(seedMoney)}</p>
-            <p>월 총 납입 예상: {formatKRW(monthlyDeposit)}</p>
+
+          {/* 씨앗돈 정보 */}
+          <div className="rounded-lg bg-gray-50 p-3 space-y-1">
+            <p className="text-sm text-gray-500">이번 달 씨앗돈: {formatKRW(seedMoney)}</p>
+            <p className="text-sm text-gray-500">월 총 납입 예상: {formatKRW(monthlyDeposit)}</p>
           </div>
+
+          {/* 저장 버튼 */}
           <button
             type="submit"
-            className="w-full rounded-lg bg-emerald-600 py-2.5 font-medium text-white hover:bg-emerald-700"
+            className="w-full rounded-xl bg-emerald-600 py-3 text-base font-semibold text-white hover:bg-emerald-700 transition-colors"
           >
             {saved ? "저장됨 ✓" : "저장"}
           </button>
         </form>
-
-        {target > 0 && (
-          <section className="rounded-2xl border border-emerald-100 bg-white p-6 shadow-sm">
-            <h3 className="text-sm font-medium text-emerald-600">
-              시뮬레이션 결과
-            </h3>
-            <p className="mt-2 text-xl font-bold text-emerald-800">
-              현재 월 배당: {formatKRW(currentDividend)}
-            </p>
-            <p className="mt-2 text-lg font-semibold text-emerald-700">
-              {monthsToGoal !== null
-                ? monthsToGoal === 0
-                  ? "🎉 목표 달성!"
-                  : `목표 달성까지 약 ${monthsToGoal}개월`
-                : "목표를 저장하면 결과가 표시됩니다"}
-            </p>
-          </section>
-        )}
       </main>
 
       {/* 하단 네비게이션 */}
