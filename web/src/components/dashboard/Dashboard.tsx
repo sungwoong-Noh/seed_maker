@@ -8,6 +8,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { AddExpenseModal } from "./AddExpenseModal";
 import { formatKRW } from "@/lib/format";
 import { BottomNav } from "@/components/common/BottomNav";
+import { getCategoryIcon } from "@/lib/categoryIcons";
 
 type Props = {
   userId: string;
@@ -113,14 +114,15 @@ export function Dashboard({ userId, yearMonth, userEmail }: Props) {
           <div className="space-y-0">
             {expenses.slice(0, 3).map((e: { id: string; amount: number; spent_at: string; memo?: string | null; category?: { name: string } }, idx: number) => {
               const daysAgo = idx === 0 ? "오늘" : idx === 1 ? "어제" : `${idx}일 전`;
+              const categoryName = (e.category as { name?: string })?.name ?? "기타";
               return (
                 <div
                   key={e.id}
                   className="flex items-center justify-between h-10"
                 >
                   <div className="flex items-center gap-3">
-                    <span className="text-sm font-medium text-gray-900">{(e.category as { name?: string })?.name ?? "-"}</span>
-                    <span className="text-sm text-gray-900">{formatKRW(e.amount)}</span>
+                    <span className="text-2xl">{getCategoryIcon(categoryName)}</span>
+                    <span className="text-base font-semibold text-gray-900">{formatKRW(e.amount)}</span>
                   </div>
                   <span className="text-sm text-gray-500">{daysAgo}</span>
                 </div>
