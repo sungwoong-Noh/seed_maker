@@ -7,6 +7,7 @@ import { createClient } from "@/lib/supabase/client";
 import { useBudgets } from "@/hooks/useBudgets";
 import { formatKRW } from "@/lib/format";
 import { showSuccess, showError } from "@/lib/toast";
+import { BottomNav } from "@/components/common/BottomNav";
 
 type Props = {
   userId: string;
@@ -133,6 +134,9 @@ export function BudgetForm({ userId, yearMonth }: Props) {
           </button>
         </form>
       </main>
+
+      {/* 하단 네비게이션 */}
+      <BottomNav />
     </div>
   );
 }

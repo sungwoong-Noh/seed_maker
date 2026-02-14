@@ -6,6 +6,7 @@ import { useExpenses } from "@/hooks/useExpenses";
 import { AddExpenseModal } from "@/components/dashboard/AddExpenseModal";
 import { formatKRW } from "@/lib/format";
 import { showSuccess, showError } from "@/lib/toast";
+import { BottomNav } from "@/components/common/BottomNav";
 
 type Props = {
   userId: string;
@@ -92,6 +93,9 @@ export function ExpenseList({ userId, yearMonth }: Props) {
           onSuccess={() => setShowAdd(false)}
         />
       )}
+
+      {/* 하단 네비게이션 */}
+      <BottomNav />
     </div>
   );
 }

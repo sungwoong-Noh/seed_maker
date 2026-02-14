@@ -6,6 +6,7 @@ import { useDividendStocks } from "@/hooks/useDividendStocks";
 import { AddStockModal } from "./AddStockModal";
 import { formatKRW } from "@/lib/format";
 import { showSuccess, showError } from "@/lib/toast";
+import { BottomNav } from "@/components/common/BottomNav";
 
 type Props = {
   userId: string;
@@ -144,6 +145,9 @@ export function PortfolioList({ userId }: Props) {
           userId={userId}
         />
       )}
+
+      {/* 하단 네비게이션 */}
+      <BottomNav />
     </div>
   );
 }

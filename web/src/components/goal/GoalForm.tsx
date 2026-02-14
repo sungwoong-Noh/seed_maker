@@ -7,6 +7,7 @@ import { useDashboard } from "@/hooks/useDashboard";
 import { formatKRW } from "@/lib/format";
 import { simulateMonthsToGoal } from "@/lib/simulation";
 import { showSuccess, showError } from "@/lib/toast";
+import { BottomNav } from "@/components/common/BottomNav";
 
 type Props = {
   userId: string;
@@ -172,6 +173,9 @@ export function GoalForm({ userId, yearMonth }: Props) {
           </section>
         )}
       </main>
+
+      {/* 하단 네비게이션 */}
+      <BottomNav />
     </div>
   );
 }
