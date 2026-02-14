@@ -134,7 +134,6 @@ export function Dashboard({ userId, yearMonth, userEmail }: Props) {
             )}
           </div>
         </section>
-      </div>
       </main>
 
       {/* FAB */}
