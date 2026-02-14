@@ -67,9 +67,12 @@ export function GoalForm({ userId, yearMonth }: Props) {
   if (isLoading) {
     return (
       <div className="mx-auto max-w-lg pb-24">
-        <header className="sticky top-0 z-10 flex items-center gap-3 bg-white px-4 py-4 border-b border-gray-100">
-          <Link href="/" className="text-2xl text-gray-900">←</Link>
-          <h1 className="text-xl font-semibold text-gray-900">목표 설정</h1>
+        <header className="sticky top-0 z-10 flex items-center justify-between bg-white px-4 py-4 border-b border-gray-100">
+          <div className="flex items-center gap-3">
+            <Link href="/" className="text-2xl text-gray-900">←</Link>
+            <h1 className="text-xl font-semibold text-gray-900">Seed Maker</h1>
+          </div>
+          <span className="text-sm text-gray-600">목표 설정</span>
         </header>
         <main className="px-4 py-6 space-y-4">
           <div className="rounded-xl bg-gray-50 p-5 space-y-2">
@@ -92,9 +95,12 @@ export function GoalForm({ userId, yearMonth }: Props) {
 
   return (
     <div className="mx-auto max-w-lg md:max-w-3xl lg:max-w-5xl pb-24">
-      <header className="sticky top-0 z-10 flex items-center gap-3 bg-white px-4 md:px-6 lg:px-8 py-4 border-b border-gray-100">
-        <Link href="/" className="text-2xl text-gray-900">←</Link>
-        <h1 className="text-xl md:text-2xl font-semibold text-gray-900">목표 설정</h1>
+      <header className="sticky top-0 z-10 flex items-center justify-between bg-white px-4 md:px-6 lg:px-8 py-4 border-b border-gray-100">
+        <div className="flex items-center gap-3">
+          <Link href="/" className="text-2xl text-gray-900">←</Link>
+          <h1 className="text-xl md:text-2xl font-semibold text-gray-900">Seed Maker</h1>
+        </div>
+        <span className="text-sm md:text-base text-gray-600">목표 설정</span>
       </header>
 
       <main className="px-4 md:px-6 lg:px-8 py-6 md:py-8">

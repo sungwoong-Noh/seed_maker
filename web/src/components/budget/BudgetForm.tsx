@@ -71,11 +71,12 @@ export function BudgetForm({ userId, yearMonth }: Props) {
   if (isLoading || !categories) {
     return (
       <div className="mx-auto max-w-lg pb-8">
-        <header className="sticky top-0 z-10 flex items-center justify-between border-b border-emerald-100 bg-white/90 px-4 py-3 backdrop-blur">
-          <Link href="/" className="text-lg font-bold text-emerald-800">
-            🌱 Seed Maker
-          </Link>
-          <h2 className="text-sm font-medium text-gray-700">예산 설정</h2>
+        <header className="sticky top-0 z-10 flex items-center justify-between bg-white px-4 py-4 border-b border-gray-100">
+          <div className="flex items-center gap-3">
+            <Link href="/" className="text-2xl text-gray-900">←</Link>
+            <h1 className="text-xl font-semibold text-gray-900">Seed Maker</h1>
+          </div>
+          <span className="text-sm text-gray-600">예산 설정</span>
         </header>
         <main className="px-4 md:px-6 lg:px-8 py-6 md:py-8">
           <div className="space-y-4">
@@ -98,11 +99,12 @@ export function BudgetForm({ userId, yearMonth }: Props) {
   return (
     <div className="mx-auto max-w-lg md:max-w-3xl lg:max-w-5xl pb-24 min-h-screen bg-white">
       {/* 헤더 */}
-      <header className="sticky top-0 z-10 flex items-center gap-3 bg-white px-4 md:px-6 lg:px-8 py-4 border-b border-gray-100">
-        <Link href="/" className="text-2xl text-gray-900">
-          ←
-        </Link>
-        <h1 className="text-xl md:text-2xl font-semibold text-gray-900">예산 설정</h1>
+      <header className="sticky top-0 z-10 flex items-center justify-between bg-white px-4 md:px-6 lg:px-8 py-4 border-b border-gray-100">
+        <div className="flex items-center gap-3">
+          <Link href="/" className="text-2xl text-gray-900">←</Link>
+          <h1 className="text-xl md:text-2xl font-semibold text-gray-900">Seed Maker</h1>
+        </div>
+        <span className="text-sm md:text-base text-gray-600">예산 설정</span>
       </header>
 
       <main className="p-4">
