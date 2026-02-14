@@ -122,7 +122,7 @@ export function GoalForm({ userId, yearMonth }: Props) {
               <label className="text-sm md:text-base font-semibold text-gray-900">
                 목표 월 배당금
               </label>
-              <div className="flex items-center gap-1 rounded-lg border border-gray-200 bg-gray-50 px-3 md:px-4 py-3 md:py-4">
+              <div className="flex items-center gap-1 rounded-lg border border-gray-200 bg-white px-3 md:px-4 py-3 md:py-4">
                 <span className="text-base md:text-lg text-gray-500">₩</span>
                 <input
                   type="text"
@@ -143,7 +143,7 @@ export function GoalForm({ userId, yearMonth }: Props) {
               <label className="text-sm md:text-base font-semibold text-gray-900">
                 추가 월 납입액
               </label>
-              <div className="flex items-center gap-1 rounded-lg border border-gray-200 bg-gray-50 px-3 md:px-4 py-3 md:py-4">
+              <div className="flex items-center gap-1 rounded-lg border border-gray-200 bg-white px-3 md:px-4 py-3 md:py-4">
                 <span className="text-base md:text-lg text-gray-500">₩</span>
                 <input
                   type="text"
