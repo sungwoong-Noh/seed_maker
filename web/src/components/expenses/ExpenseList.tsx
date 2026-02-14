@@ -20,10 +20,10 @@ export function ExpenseList({ userId, yearMonth }: Props) {
   // 로딩 상태는 Suspense에서 처리
 
   return (
-    <div className="mx-auto max-w-lg pb-24 min-h-screen bg-white">
+    <div className="mx-auto max-w-lg md:max-w-3xl lg:max-w-5xl pb-24 min-h-screen bg-white">
       {/* 헤더 */}
-      <header className="sticky top-0 z-10 flex items-center justify-between bg-white px-4 py-4 border-b border-gray-100">
-        <Link href="/" className="text-xl font-semibold text-gray-900">
+      <header className="sticky top-0 z-10 flex items-center justify-between bg-white px-4 md:px-6 lg:px-8 py-4 border-b border-gray-100">
+        <Link href="/" className="text-xl md:text-2xl font-semibold text-gray-900">
           Seed Maker
         </Link>
         <h2 className="text-base font-medium text-gray-700">지출 목록</h2>
@@ -46,7 +46,7 @@ export function ExpenseList({ userId, yearMonth }: Props) {
           {expenses.map((e: { id: string; amount: number; spent_at: string; memo?: string | null; category?: { name: string } }) => (
             <div
               key={e.id}
-              className="flex items-center justify-between bg-gray-50 rounded-xl px-4 py-4 hover:bg-gray-100 transition-colors"
+              className="flex items-center justify-between bg-gray-50 rounded-xl px-4 md:px-6 lg:px-8 py-4 hover:bg-gray-100 transition-colors"
             >
               <div className="flex-1">
                 <p className="text-lg font-semibold text-gray-900">{formatKRW(e.amount)}</p>

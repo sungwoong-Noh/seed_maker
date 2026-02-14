@@ -77,7 +77,7 @@ export function BudgetForm({ userId, yearMonth }: Props) {
           </Link>
           <h2 className="text-sm font-medium text-gray-700">예산 설정</h2>
         </header>
-        <main className="px-4 py-6">
+        <main className="px-4 md:px-6 lg:px-8 py-6 md:py-8">
           <div className="space-y-4">
             {Array.from({ length: 5 }).map((_, i) => (
               <div key={i} className="rounded-lg border border-gray-200 p-4">
@@ -96,13 +96,13 @@ export function BudgetForm({ userId, yearMonth }: Props) {
   }, 0);
 
   return (
-    <div className="mx-auto max-w-lg pb-24 min-h-screen bg-white">
+    <div className="mx-auto max-w-lg md:max-w-3xl lg:max-w-5xl pb-24 min-h-screen bg-white">
       {/* 헤더 */}
-      <header className="sticky top-0 z-10 flex items-center gap-3 bg-white px-4 py-4 border-b border-gray-100">
+      <header className="sticky top-0 z-10 flex items-center gap-3 bg-white px-4 md:px-6 lg:px-8 py-4 border-b border-gray-100">
         <Link href="/" className="text-2xl text-gray-900">
           ←
         </Link>
-        <h1 className="text-xl font-semibold text-gray-900">예산 설정</h1>
+        <h1 className="text-xl md:text-2xl font-semibold text-gray-900">예산 설정</h1>
       </header>
 
       <main className="p-4">

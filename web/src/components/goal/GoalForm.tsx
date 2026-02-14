@@ -91,86 +91,88 @@ export function GoalForm({ userId, yearMonth }: Props) {
   }
 
   return (
-    <div className="mx-auto max-w-lg pb-24">
-      <header className="sticky top-0 z-10 flex items-center gap-3 bg-white px-4 py-4 border-b border-gray-100">
+    <div className="mx-auto max-w-lg md:max-w-3xl lg:max-w-5xl pb-24">
+      <header className="sticky top-0 z-10 flex items-center gap-3 bg-white px-4 md:px-6 lg:px-8 py-4 border-b border-gray-100">
         <Link href="/" className="text-2xl text-gray-900">←</Link>
-        <h1 className="text-xl font-semibold text-gray-900">목표 설정</h1>
+        <h1 className="text-xl md:text-2xl font-semibold text-gray-900">목표 설정</h1>
       </header>
 
-      <main className="px-4 py-6 space-y-4">
-        {/* 목표 달성까지 카드 */}
-        {target > 0 && monthsToGoal !== null && (
-          <div className="rounded-xl bg-gray-50 p-5 space-y-2">
-            <p className="text-base font-semibold text-gray-900">목표 달성까지</p>
-            <p className="text-[32px] font-bold text-emerald-600">
-              {monthsToGoal === 0 ? "🎉 달성!" : `${monthsToGoal}개월`}
-            </p>
-            {monthsToGoal > 0 && (
-              <p className="text-sm text-gray-500">
-                {new Date(new Date().setMonth(new Date().getMonth() + monthsToGoal)).getFullYear()}년{" "}
-                {new Date(new Date().setMonth(new Date().getMonth() + monthsToGoal)).getMonth() + 1}월 예상
+      <main className="px-4 md:px-6 lg:px-8 py-6 md:py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+          {/* 목표 달성까지 카드 */}
+          {target > 0 && monthsToGoal !== null && (
+            <div className="rounded-xl bg-gray-50 p-5 md:p-6 space-y-2">
+              <p className="text-base md:text-lg font-semibold text-gray-900">목표 달성까지</p>
+              <p className="text-[32px] md:text-[40px] font-bold text-emerald-600">
+                {monthsToGoal === 0 ? "🎉 달성!" : `${monthsToGoal}개월`}
               </p>
-            )}
-            <p className="text-xs text-gray-500">* 평균 배당 수익률 3% 가정</p>
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {/* 목표 월 배당금 입력 */}
-          <div className="space-y-2">
-            <label className="text-sm font-semibold text-gray-900">
-              목표 월 배당금
-            </label>
-            <div className="flex items-center gap-1 rounded-lg border border-gray-200 bg-gray-50 px-3 py-3">
-              <span className="text-base text-gray-500">₩</span>
-              <input
-                type="text"
-                inputMode="numeric"
-                value={targetMonthlyDividend}
-                onChange={(e) =>
-                  setTargetMonthlyDividend(e.target.value.replace(/\D/g, ""))
-                }
-                placeholder="1,000,000"
-                className="flex-1 text-base text-gray-900 bg-transparent outline-none"
-                required
-              />
+              {monthsToGoal > 0 && (
+                <p className="text-sm md:text-base text-gray-500">
+                  {new Date(new Date().setMonth(new Date().getMonth() + monthsToGoal)).getFullYear()}년{" "}
+                  {new Date(new Date().setMonth(new Date().getMonth() + monthsToGoal)).getMonth() + 1}월 예상
+                </p>
+              )}
+              <p className="text-xs md:text-sm text-gray-500">* 평균 배당 수익률 3% 가정</p>
             </div>
-          </div>
+          )}
 
-          {/* 추가 월 납입액 입력 */}
-          <div className="space-y-2">
-            <label className="text-sm font-semibold text-gray-900">
-              추가 월 납입액
-            </label>
-            <div className="flex items-center gap-1 rounded-lg border border-gray-200 bg-gray-50 px-3 py-3">
-              <span className="text-base text-gray-500">₩</span>
-              <input
-                type="text"
-                inputMode="numeric"
-                value={extraMonthlyDeposit}
-                onChange={(e) =>
-                  setExtraMonthlyDeposit(e.target.value.replace(/\D/g, ""))
-                }
-                placeholder="0"
-                className="flex-1 text-base text-gray-900 bg-transparent outline-none"
-              />
+          <form onSubmit={handleSubmit} className="space-y-4 md:space-y-5">
+            {/* 목표 월 배당금 입력 */}
+            <div className="space-y-2">
+              <label className="text-sm md:text-base font-semibold text-gray-900">
+                목표 월 배당금
+              </label>
+              <div className="flex items-center gap-1 rounded-lg border border-gray-200 bg-gray-50 px-3 md:px-4 py-3 md:py-4">
+                <span className="text-base md:text-lg text-gray-500">₩</span>
+                <input
+                  type="text"
+                  inputMode="numeric"
+                  value={targetMonthlyDividend}
+                  onChange={(e) =>
+                    setTargetMonthlyDividend(e.target.value.replace(/\D/g, ""))
+                  }
+                  placeholder="1,000,000"
+                  className="flex-1 text-base md:text-lg text-gray-900 bg-transparent outline-none"
+                  required
+                />
+              </div>
             </div>
-          </div>
 
-          {/* 씨앗돈 정보 */}
-          <div className="rounded-lg bg-gray-50 p-3 space-y-1">
-            <p className="text-sm text-gray-500">이번 달 씨앗돈: {formatKRW(seedMoney)}</p>
-            <p className="text-sm text-gray-500">월 총 납입 예상: {formatKRW(monthlyDeposit)}</p>
-          </div>
+            {/* 추가 월 납입액 입력 */}
+            <div className="space-y-2">
+              <label className="text-sm md:text-base font-semibold text-gray-900">
+                추가 월 납입액
+              </label>
+              <div className="flex items-center gap-1 rounded-lg border border-gray-200 bg-gray-50 px-3 md:px-4 py-3 md:py-4">
+                <span className="text-base md:text-lg text-gray-500">₩</span>
+                <input
+                  type="text"
+                  inputMode="numeric"
+                  value={extraMonthlyDeposit}
+                  onChange={(e) =>
+                    setExtraMonthlyDeposit(e.target.value.replace(/\D/g, ""))
+                  }
+                  placeholder="0"
+                  className="flex-1 text-base md:text-lg text-gray-900 bg-transparent outline-none"
+                />
+              </div>
+            </div>
 
-          {/* 저장 버튼 */}
-          <button
-            type="submit"
-            className="w-full rounded-xl bg-emerald-600 py-3 text-base font-semibold text-white hover:bg-emerald-700 transition-colors"
-          >
-            {saved ? "저장됨 ✓" : "저장"}
-          </button>
-        </form>
+            {/* 씨앗돈 정보 */}
+            <div className="rounded-lg bg-gray-50 p-3 md:p-4 space-y-1">
+              <p className="text-sm md:text-base text-gray-500">이번 달 씨앗돈: {formatKRW(seedMoney)}</p>
+              <p className="text-sm md:text-base text-gray-500">월 총 납입 예상: {formatKRW(monthlyDeposit)}</p>
+            </div>
+
+            {/* 저장 버튼 */}
+            <button
+              type="submit"
+              className="w-full rounded-xl bg-emerald-600 py-3 md:py-4 text-base md:text-lg font-semibold text-white hover:bg-emerald-700 transition-colors"
+            >
+              {saved ? "저장됨 ✓" : "저장"}
+            </button>
+          </form>
+        </div>
       </main>
 
       {/* 하단 네비게이션 */}
