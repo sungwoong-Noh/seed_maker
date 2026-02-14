@@ -91,16 +91,16 @@ export function GoalForm({ userId, yearMonth }: Props) {
   }
 
   return (
-    <div className="mx-auto max-w-lg pb-24">
+    <div className="mx-auto max-w-lg min-h-screen bg-white pb-24">
       <header className="sticky top-0 z-10 flex items-center gap-3 bg-white px-4 py-4 border-b border-gray-100">
         <Link href="/" className="text-2xl text-gray-900">←</Link>
         <h1 className="text-xl font-semibold text-gray-900">목표 설정</h1>
       </header>
 
-      <main className="px-4 py-6 space-y-4">
-        {/* 목표 달성까지 카드 */}
+      <main className="p-4 space-y-4">
+        {/* 목표 달성까지 카드 - Pencil: height 140, padding 20, gap 8 */}
         {target > 0 && monthsToGoal !== null && (
-          <div className="rounded-xl bg-gray-50 p-5 space-y-2">
+          <div className="rounded-xl bg-gray-50 p-5 min-h-[140px] flex flex-col justify-center gap-2">
             <p className="text-base font-semibold text-gray-900">목표 달성까지</p>
             <p className="text-[32px] font-bold text-emerald-600">
               {monthsToGoal === 0 ? "🎉 달성!" : `${monthsToGoal}개월`}
@@ -116,12 +116,12 @@ export function GoalForm({ userId, yearMonth }: Props) {
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          {/* 목표 월 배당금 입력 */}
-          <div className="rounded-xl bg-white p-4 space-y-2">
+          {/* 목표 월 배당금 - Pencil: outer height 80, padding 16 / inner height 40, padding 12 */}
+          <div className="rounded-xl bg-white p-4 min-h-[80px] flex flex-col gap-2">
             <label className="text-sm font-semibold text-gray-900">
               목표 월 배당금
             </label>
-            <div className="flex items-center gap-1 rounded-lg bg-gray-50 px-3 py-2.5">
+            <div className="flex items-center gap-1 rounded-lg bg-gray-50 h-10 px-3">
               <span className="text-base text-gray-500">₩</span>
               <input
                 type="text"
@@ -137,12 +137,12 @@ export function GoalForm({ userId, yearMonth }: Props) {
             </div>
           </div>
 
-          {/* 추가 월 납입액 입력 */}
-          <div className="rounded-xl bg-white p-4 space-y-2">
+          {/* 추가 월 납입액 - Pencil: same structure */}
+          <div className="rounded-xl bg-white p-4 min-h-[80px] flex flex-col gap-2">
             <label className="text-sm font-semibold text-gray-900">
               추가 월 납입액
             </label>
-            <div className="flex items-center gap-1 rounded-lg bg-gray-50 px-3 py-2.5">
+            <div className="flex items-center gap-1 rounded-lg bg-gray-50 h-10 px-3">
               <span className="text-base text-gray-500">₩</span>
               <input
                 type="text"
@@ -157,16 +157,16 @@ export function GoalForm({ userId, yearMonth }: Props) {
             </div>
           </div>
 
-          {/* 씨앗돈 정보 */}
-          <div className="rounded-lg bg-gray-50 p-3 space-y-1">
+          {/* 씨앗돈 정보 - Pencil: height 60, padding 12, cornerRadius 8 */}
+          <div className="rounded-lg bg-gray-50 p-3 min-h-[60px] flex flex-col justify-center gap-1">
             <p className="text-sm text-gray-500">이번 달 씨앗돈: {formatKRW(seedMoney)}</p>
             <p className="text-sm text-gray-500">월 총 납입 예상: {formatKRW(monthlyDeposit)}</p>
           </div>
 
-          {/* 저장 버튼 */}
+          {/* 저장 버튼 - Pencil: height 48, padding 12 */}
           <button
             type="submit"
-            className="w-full rounded-xl bg-emerald-600 py-3 text-base font-semibold text-white hover:bg-emerald-700 transition-colors"
+            className="w-full h-12 rounded-xl bg-emerald-600 flex items-center justify-center text-base font-semibold text-white hover:bg-emerald-700 transition-colors"
           >
             {saved ? "저장됨 ✓" : "저장"}
           </button>
