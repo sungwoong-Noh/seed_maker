@@ -29,20 +29,20 @@ export function ExpenseList({ userId, yearMonth }: Props) {
 
       {/* 메인 콘텐츠 */}
       <main className="p-4 space-y-4">
-        {/* 지출 추가 버튼 */}
+        {/* 지출 추가 버튼 - Pencil: height 48, padding 12 */}
         <button
           onClick={() => setShowAdd(true)}
-          className="w-full rounded-xl bg-emerald-600 py-3 text-base font-semibold text-white hover:bg-emerald-700 transition-colors"
+          className="w-full h-12 rounded-xl bg-emerald-600 flex items-center justify-center text-base font-semibold text-white hover:bg-emerald-700 transition-colors"
         >
           + 지출 추가
         </button>
 
-        {/* 지출 목록 */}
+        {/* 지출 목록 - Pencil: height 72, padding 16, gap 4 */}
         <div className="space-y-4">
           {expenses.map((e: { id: string; amount: number; spent_at: string; memo?: string | null; category?: { name: string } }) => (
             <div
               key={e.id}
-              className="bg-gray-50 rounded-xl p-4 space-y-1"
+              className="bg-gray-50 rounded-xl p-4 min-h-[72px] flex flex-col justify-center gap-1"
             >
               <p className="text-lg font-semibold text-gray-900">{formatKRW(e.amount)}</p>
               <p className="text-sm text-gray-600">

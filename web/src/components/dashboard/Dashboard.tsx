@@ -66,8 +66,8 @@ export function Dashboard({ userId, yearMonth, userEmail }: Props) {
       <main className="p-4 space-y-4">
         {/* 주요 카드 */}
         <div className="space-y-4">
-          {/* 씨앗돈 카드 */}
-          <section className="rounded-xl bg-gray-50 p-5 space-y-2">
+          {/* 씨앗돈 카드 - Pencil: height 140, padding 20, gap 8 */}
+          <section className="rounded-xl bg-gray-50 p-5 min-h-[140px] flex flex-col justify-center gap-2">
             <h2 className="text-base font-semibold text-gray-900">🌱 이번 달 씨앗돈</h2>
             <p className="text-[32px] font-bold text-emerald-600">
               {formatKRW(data.seedMoney)}
@@ -77,13 +77,13 @@ export function Dashboard({ userId, yearMonth, userEmail }: Props) {
             </p>
           </section>
 
-          {/* 목표 진행률 */}
+          {/* 목표 진행률 - Pencil: height 140, padding 20, gap 12 */}
           {data.targetMonthlyDividend > 0 && (
-            <section className="rounded-xl bg-gray-50 p-5 space-y-3">
+            <section className="rounded-xl bg-gray-50 p-5 min-h-[140px] flex flex-col justify-center gap-3">
               <h2 className="text-base font-semibold text-gray-900">목표 월 배당금</h2>
               <div className="h-2 overflow-hidden rounded bg-gray-200">
                 <div
-                  className="h-full rounded bg-emerald-500 transition-all duration-500"
+                  className="h-full rounded bg-blue-600 transition-all duration-500"
                   style={{ width: `${progressPercent}%` }}
                 />
               </div>
@@ -99,9 +99,9 @@ export function Dashboard({ userId, yearMonth, userEmail }: Props) {
           )}
         </div>
 
-        {/* 스트릭 */}
+        {/* 스트릭 - Pencil: height 60, padding 16 */}
         {data.streakDays > 0 && (
-          <section className="rounded-xl bg-amber-50 p-4 flex items-center justify-center">
+          <section className="rounded-xl bg-amber-50 min-h-[60px] p-4 flex items-center justify-center">
             <p className="text-base font-semibold text-amber-900">
               🔥 {data.streakDays}일 연속 기록 중!
             </p>

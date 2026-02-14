@@ -7,7 +7,6 @@ import { useExpenses } from "@/hooks/useExpenses";
 import { showSuccess, showError } from "@/lib/toast";
 import { Modal, ModalHeader, ModalBody } from "@/components/common/Modal";
 import { Input } from "@/components/common/Input";
-import { Button } from "@/components/common/Button";
 
 type Props = {
   userId: string;
@@ -95,7 +94,7 @@ export function AddExpenseModal({
             <select
               value={categoryId}
               onChange={(e) => setCategoryId(e.target.value)}
-              className="block w-full rounded-lg border border-gray-200 px-3 py-2 text-base transition-colors focus:outline-none focus:ring-2 focus:ring-offset-0 focus:border-emerald-500 focus:ring-emerald-500"
+              className="block w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-base text-gray-900 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-0 focus:border-emerald-500 focus:ring-emerald-500"
             >
               {categories?.map((c) => (
                 <option key={c.id} value={c.id}>
@@ -120,9 +119,12 @@ export function AddExpenseModal({
             placeholder="점심"
           />
           
-          <Button type="submit" className="w-full" size="lg">
+          <button
+            type="submit"
+            className="w-full h-12 rounded-lg bg-blue-600 flex items-center justify-center text-base font-semibold text-white hover:bg-blue-700 transition-colors"
+          >
             저장
-          </Button>
+          </button>
         </form>
       </ModalBody>
     </Modal>

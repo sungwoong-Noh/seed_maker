@@ -75,7 +75,7 @@ export function BudgetForm({ userId, yearMonth }: Props) {
           <Link href="/" className="text-2xl text-gray-900">←</Link>
           <h1 className="text-xl font-semibold text-gray-900">예산 설정</h1>
         </header>
-        <main className="px-4 md:px-6 lg:px-8 py-6 md:py-8">
+        <main className="p-4">
           <div className="space-y-4">
             {Array.from({ length: 5 }).map((_, i) => (
               <div key={i} className="rounded-lg border border-gray-200 p-4">
@@ -102,8 +102,8 @@ export function BudgetForm({ userId, yearMonth }: Props) {
       </header>
 
       <main className="p-4">
-        {/* 월 선택 (향후 구현) */}
-        <div className="mb-4 flex items-center justify-between rounded-lg border border-gray-200 bg-white px-3 py-3">
+        {/* 월 선택 - Pencil: height 48, padding 12 */}
+        <div className="mb-4 flex items-center justify-between rounded-lg bg-white h-12 px-3 border border-gray-200">
           <span className="text-base text-gray-900">{yearMonth.replace('-', '년 ')}월</span>
           <span className="text-sm text-gray-500">▼</span>
         </div>
@@ -118,8 +118,8 @@ export function BudgetForm({ userId, yearMonth }: Props) {
                 <span className="text-base font-semibold text-gray-900">{c.name}</span>
               </div>
               
-              {/* 입력 필드 */}
-              <div className="flex items-center gap-1 rounded-lg border border-gray-200 bg-white px-3 py-3">
+              {/* 입력 필드 - Pencil: height 48, padding 12 */}
+              <div className="flex items-center gap-1 rounded-lg bg-white h-12 px-3 border border-gray-200">
                 <span className="text-base text-gray-500">₩</span>
                 <input
                   type="text"
@@ -138,16 +138,17 @@ export function BudgetForm({ userId, yearMonth }: Props) {
             </div>
           ))}
 
-          {/* 총 예산 */}
+          {/* 총 예산 - Pencil: totalBox height 60, totalVal #2563EB(blue) */}
           <div className="pt-4 border-t border-gray-200">
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center justify-between rounded-xl bg-gray-50 min-h-[60px] px-4 mb-4">
               <span className="text-base font-semibold text-gray-900">총 예산:</span>
-              <span className="text-xl font-bold text-emerald-600">{formatKRW(totalBudget)}</span>
+              <span className="text-xl font-bold text-blue-600">{formatKRW(totalBudget)}</span>
             </div>
             
+            {/* 저장 버튼 - Pencil: height 48, #2563EB */}
             <button
               type="submit"
-              className="w-full rounded-xl bg-emerald-600 py-3.5 text-base font-semibold text-white hover:bg-emerald-700 transition-colors"
+              className="w-full h-12 rounded-lg bg-blue-600 flex items-center justify-center text-base font-semibold text-white hover:bg-blue-700 transition-colors"
             >
               {saved ? "저장됨 ✓" : "저장"}
             </button>
