@@ -6,6 +6,7 @@ import { useDashboard } from "@/hooks/useDashboard";
 import { useExpenses } from "@/hooks/useExpenses";
 import { useAuth } from "@/hooks/useAuth";
 import { AddExpenseModal } from "./AddExpenseModal";
+import { BudgetChart } from "./BudgetChart";
 import { formatKRW } from "@/lib/format";
 import { BottomNav } from "@/components/common/BottomNav";
 import { getCategoryIcon } from "@/lib/categoryIcons";
@@ -107,6 +108,11 @@ export function Dashboard({ userId, yearMonth, userEmail }: Props) {
               🔥 {data.streakDays}일 연속 기록 중!
             </p>
           </section>
+        )}
+
+        {/* 카테고리별 예산 vs 실지출 차트 */}
+        {data.byCategory.length > 0 && (
+          <BudgetChart data={data.byCategory} />
         )}
 
         {/* 최근 지출 */}
