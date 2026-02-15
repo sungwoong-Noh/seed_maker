@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { QueryProvider } from "@/components/providers/QueryProvider";
+import { PageTransition } from "@/components/common/PageTransition";
 
 export default async function MainLayout({
   children,
@@ -18,7 +19,9 @@ export default async function MainLayout({
 
   return (
     <QueryProvider>
-      <div className="min-h-screen bg-emerald-50/30">{children}</div>
+      <div className="min-h-screen bg-emerald-50/30">
+        <PageTransition>{children}</PageTransition>
+      </div>
     </QueryProvider>
   );
 }

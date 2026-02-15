@@ -148,7 +148,7 @@ export function BudgetForm({ userId, yearMonth }: Props) {
             {/* 저장 버튼 - 목표 페이지와 통일: emerald */}
             <button
               type="submit"
-              className="w-full h-12 rounded-xl bg-emerald-600 flex items-center justify-center text-base font-semibold text-white hover:bg-emerald-700 transition-colors"
+              className="w-full h-12 rounded-xl bg-emerald-600 flex items-center justify-center text-base font-semibold text-white hover:bg-emerald-700 active:scale-[0.98] transition-all duration-150"
             >
               {saved ? "저장됨 ✓" : "저장"}
             </button>

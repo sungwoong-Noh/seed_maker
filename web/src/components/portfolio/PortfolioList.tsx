@@ -65,7 +65,7 @@ export function PortfolioList({ userId }: Props) {
 
       <main className="p-4 space-y-4">
         {/* 현재 월 배당금 카드 - Pencil: height 120, padding 20, gap 8 */}
-        <div className="rounded-xl bg-gray-50 p-5 min-h-[120px] flex flex-col justify-center gap-2">
+        <div className="rounded-xl bg-gray-50 p-5 min-h-[120px] flex flex-col justify-center gap-2 transition-shadow duration-200 hover:shadow-md">
           <p className="text-base font-semibold text-gray-900">현재 월 배당금</p>
           <p className="text-[32px] font-bold text-emerald-600">
             {formatKRW(totalMonthlyDividend)}
@@ -76,7 +76,7 @@ export function PortfolioList({ userId }: Props) {
         {/* 종목 추가 버튼 - Pencil: height 48, padding 12, cornerRadius 12 */}
         <button
           onClick={() => setShowAdd(true)}
-          className="w-full h-12 rounded-xl bg-emerald-600 flex items-center justify-center text-base font-semibold text-white hover:bg-emerald-700 transition-colors"
+          className="w-full h-12 rounded-xl bg-emerald-600 flex items-center justify-center text-base font-semibold text-white hover:bg-emerald-700 active:scale-[0.98] transition-all duration-150"
         >
           + 종목 추가
         </button>
@@ -89,7 +89,7 @@ export function PortfolioList({ userId }: Props) {
             return (
               <div
                 key={s.id}
-                className="rounded-xl bg-gray-50 p-4 min-h-[80px] flex flex-col justify-center gap-1"
+                className="rounded-xl bg-gray-50 p-4 min-h-[80px] flex flex-col justify-center gap-1 transition-shadow duration-200 hover:shadow-md"
               >
                 <p className="text-base font-semibold text-gray-900">
                   {s.ticker ? `${s.ticker} - ` : ""}

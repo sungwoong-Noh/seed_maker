@@ -39,6 +39,9 @@
 - ✅ Pencil 기획 1:1 반영 (모바일 우선 375px, 단일 컬럼)
 - ✅ 팝업 입력창 텍스트 색상 수정 (text-gray-900)
 - ✅ 버튼 색상 통일 (목표 페이지 기준 emerald-600)
+- ✅ **페이지 전환 애니메이션** (Framer Motion, fade+slide)
+- ✅ **카드 호버 효과** (hover:shadow-md)
+- ✅ **버튼 클릭 피드백** (active:scale-98)
 
 ### 4. 이슈 해결 (7개)
 1. Tailwind CSS import 에러
@@ -59,11 +62,11 @@
 - [ ] 씨앗돈 트렌드 차트
 - *현재: 미설치 상태*
 
-### 1. 페이지 전환 애니메이션 (Medium)
-- [ ] Framer Motion 설치
-- [ ] 페이지 전환 효과
-- [ ] 카드 호버 효과
-- [ ] 버튼 클릭 피드백
+### 1. 페이지 전환 애니메이션 (Medium) ✅ 완료
+- [x] Framer Motion 설치
+- [x] 페이지 전환 효과 (fade + slide)
+- [x] 카드 호버 효과 (hover:shadow-md)
+- [x] 버튼 클릭 피드백 (active:scale-98)
 
 ### 2. 접근성 개선 (Medium)
 - [ ] 키보드 네비게이션

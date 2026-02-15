@@ -66,7 +66,7 @@ export function BottomNav() {
           <Link
             key={item.href}
             href={item.href}
-            className={`flex flex-col items-center gap-1 px-3 transition-colors ${
+            className={`flex flex-col items-center gap-1 px-3 transition-all duration-150 active:scale-95 ${
               isActive ? "text-emerald-600" : "text-gray-500"
             }`}
           >

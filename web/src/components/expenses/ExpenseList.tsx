@@ -32,7 +32,7 @@ export function ExpenseList({ userId, yearMonth }: Props) {
         {/* 지출 추가 버튼 - Pencil: height 48, padding 12 */}
         <button
           onClick={() => setShowAdd(true)}
-          className="w-full h-12 rounded-xl bg-emerald-600 flex items-center justify-center text-base font-semibold text-white hover:bg-emerald-700 transition-colors"
+          className="w-full h-12 rounded-xl bg-emerald-600 flex items-center justify-center text-base font-semibold text-white hover:bg-emerald-700 active:scale-[0.98] transition-all duration-150"
         >
           + 지출 추가
         </button>
@@ -42,7 +42,7 @@ export function ExpenseList({ userId, yearMonth }: Props) {
           {expenses.map((e: { id: string; amount: number; spent_at: string; memo?: string | null; category?: { name: string } }) => (
             <div
               key={e.id}
-              className="bg-gray-50 rounded-xl p-4 min-h-[72px] flex flex-col justify-center gap-1"
+              className="bg-gray-50 rounded-xl p-4 min-h-[72px] flex flex-col justify-center gap-1 transition-shadow duration-200 hover:shadow-md"
             >
               <p className="text-lg font-semibold text-gray-900">{formatKRW(e.amount)}</p>
               <p className="text-sm text-gray-600">

@@ -67,7 +67,7 @@ export function Dashboard({ userId, yearMonth, userEmail }: Props) {
         {/* 주요 카드 */}
         <div className="space-y-4">
           {/* 씨앗돈 카드 - Pencil: height 140, padding 20, gap 8 */}
-          <section className="rounded-xl bg-gray-50 p-5 min-h-[140px] flex flex-col justify-center gap-2">
+          <section className="rounded-xl bg-gray-50 p-5 min-h-[140px] flex flex-col justify-center gap-2 transition-shadow duration-200 hover:shadow-md">
             <h2 className="text-base font-semibold text-gray-900">🌱 이번 달 씨앗돈</h2>
             <p className="text-[32px] font-bold text-emerald-600">
               {formatKRW(data.seedMoney)}
@@ -79,7 +79,7 @@ export function Dashboard({ userId, yearMonth, userEmail }: Props) {
 
           {/* 목표 진행률 - Pencil: height 140, padding 20, gap 12 */}
           {data.targetMonthlyDividend > 0 && (
-            <section className="rounded-xl bg-gray-50 p-5 min-h-[140px] flex flex-col justify-center gap-3">
+            <section className="rounded-xl bg-gray-50 p-5 min-h-[140px] flex flex-col justify-center gap-3 transition-shadow duration-200 hover:shadow-md">
               <h2 className="text-base font-semibold text-gray-900">목표 월 배당금</h2>
               <div className="h-2 overflow-hidden rounded bg-gray-200">
                 <div
@@ -141,7 +141,7 @@ export function Dashboard({ userId, yearMonth, userEmail }: Props) {
       {/* FAB */}
       <button
         onClick={() => setShowAddModal(true)}
-        className="fixed bottom-24 right-4 flex h-14 w-14 items-center justify-center rounded-full bg-blue-600 text-white shadow-lg hover:bg-blue-700 active:scale-95 transition-all"
+        className="fixed bottom-24 right-4 flex h-14 w-14 items-center justify-center rounded-full bg-blue-600 text-white shadow-lg hover:bg-blue-700 hover:scale-105 active:scale-95 transition-transform duration-150"
         aria-label="지출 추가"
       >
         <span className="text-[32px] font-semibold leading-none">+</span>

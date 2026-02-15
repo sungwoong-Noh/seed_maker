@@ -100,7 +100,7 @@ export function GoalForm({ userId, yearMonth }: Props) {
       <main className="p-4 space-y-4">
         {/* 목표 달성까지 카드 - Pencil: height 140, padding 20, gap 8 */}
         {target > 0 && monthsToGoal !== null && (
-          <div className="rounded-xl bg-gray-50 p-5 min-h-[140px] flex flex-col justify-center gap-2">
+          <div className="rounded-xl bg-gray-50 p-5 min-h-[140px] flex flex-col justify-center gap-2 transition-shadow duration-200 hover:shadow-md">
             <p className="text-base font-semibold text-gray-900">목표 달성까지</p>
             <p className="text-[32px] font-bold text-emerald-600">
               {monthsToGoal === 0 ? "🎉 달성!" : `${monthsToGoal}개월`}
@@ -166,7 +166,7 @@ export function GoalForm({ userId, yearMonth }: Props) {
           {/* 저장 버튼 - Pencil: height 48, padding 12 */}
           <button
             type="submit"
-            className="w-full h-12 rounded-xl bg-emerald-600 flex items-center justify-center text-base font-semibold text-white hover:bg-emerald-700 transition-colors"
+            className="w-full h-12 rounded-xl bg-emerald-600 flex items-center justify-center text-base font-semibold text-white hover:bg-emerald-700 active:scale-[0.98] transition-all duration-150"
           >
             {saved ? "저장됨 ✓" : "저장"}
           </button>
