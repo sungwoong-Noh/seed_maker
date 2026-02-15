@@ -1,4 +1,4 @@
-import { InputHTMLAttributes, forwardRef } from "react";
+import { InputHTMLAttributes, forwardRef, useId } from "react";
 import { cn } from "@/lib/utils";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -10,23 +10,28 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 /**
  * 재사용 가능한 입력 필드 컴포넌트
  * 
- * @param label - 라벨 텍스트
+ * @param label - 라벨 텍스트 (스크린 리더 연동)
  * @param error - 에러 메시지
  * @param helperText - 도움말 텍스트
  */
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ label, error, helperText, className, ...props }, ref) => {
+  ({ label, error, helperText, className, id, ...props }, ref) => {
+    const generatedId = useId();
+    const inputId = id ?? generatedId;
     return (
       <div className="w-full">
         {label && (
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label htmlFor={inputId} className="block text-sm font-medium text-gray-700 mb-1">
             {label}
-            {props.required && <span className="text-red-500 ml-1">*</span>}
+            {props.required && <span className="text-red-500 ml-1" aria-hidden>*</span>}
           </label>
         )}
         
         <input
           ref={ref}
+          id={inputId}
+          aria-invalid={error ? "true" : undefined}
+          aria-describedby={error ? `${inputId}-error` : helperText ? `${inputId}-help` : undefined}
           className={cn(
             "block w-full rounded-lg border px-3 py-2 text-base text-gray-900 bg-white transition-colors",
             "focus:outline-none focus:ring-2 focus:ring-offset-0",
@@ -41,11 +46,11 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         />
         
         {error && (
-          <p className="mt-1 text-sm text-red-600">{error}</p>
+          <p id={`${inputId}-error`} className="mt-1 text-sm text-red-600" role="alert">{error}</p>
         )}
         
         {helperText && !error && (
-          <p className="mt-1 text-sm text-gray-500">{helperText}</p>
+          <p id={`${inputId}-help`} className="mt-1 text-sm text-gray-500">{helperText}</p>
         )}
       </div>
     );

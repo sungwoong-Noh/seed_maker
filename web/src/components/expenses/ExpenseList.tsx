@@ -23,16 +23,17 @@ export function ExpenseList({ userId, yearMonth }: Props) {
     <div className="mx-auto max-w-lg pb-24 min-h-screen bg-white">
       {/* 헤더 */}
       <header className="sticky top-0 z-10 flex items-center gap-3 bg-white px-4 py-4 border-b border-gray-100">
-        <Link href="/" className="text-2xl text-gray-900">←</Link>
+        <Link href="/" className="text-2xl text-gray-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 rounded" aria-label="뒤로 가기">←</Link>
         <h1 className="text-xl font-semibold text-gray-900">지출 목록</h1>
       </header>
 
       {/* 메인 콘텐츠 */}
-      <main className="p-4 space-y-4">
+      <main id="main-content" className="p-4 space-y-4" tabIndex={-1}>
         {/* 지출 추가 버튼 - Pencil: height 48, padding 12 */}
         <button
           onClick={() => setShowAdd(true)}
-          className="w-full h-12 rounded-xl bg-emerald-600 flex items-center justify-center text-base font-semibold text-white hover:bg-emerald-700 active:scale-[0.98] transition-all duration-150"
+          className="w-full h-12 rounded-xl bg-emerald-600 flex items-center justify-center text-base font-semibold text-white hover:bg-emerald-700 active:scale-[0.98] transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2"
+          aria-label="지출 추가"
         >
           + 지출 추가
         </button>

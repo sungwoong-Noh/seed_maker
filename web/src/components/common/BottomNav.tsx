@@ -59,16 +59,21 @@ export function BottomNav() {
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 flex justify-around border-t border-gray-200 bg-white py-3 safe-area-inset-bottom z-50">
+    <nav
+      className="fixed bottom-0 left-0 right-0 flex justify-around border-t border-gray-200 bg-white py-3 safe-area-inset-bottom z-50"
+      aria-label="메인 네비게이션"
+    >
       {navItems.map((item) => {
         const isActive = pathname === item.href;
         return (
           <Link
             key={item.href}
             href={item.href}
-            className={`flex flex-col items-center gap-1 px-3 transition-all duration-150 active:scale-95 ${
+            className={`flex flex-col items-center gap-1 px-3 transition-all duration-150 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 rounded ${
               isActive ? "text-emerald-600" : "text-gray-500"
             }`}
+            aria-current={isActive ? "page" : undefined}
+            aria-label={isActive ? `${item.label} (현재 페이지)` : item.label}
           >
             {item.icon(isActive)}
             <span className={`text-xs ${isActive ? "font-medium" : ""}`}>

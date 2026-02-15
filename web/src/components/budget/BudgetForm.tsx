@@ -72,10 +72,10 @@ export function BudgetForm({ userId, yearMonth }: Props) {
     return (
       <div className="mx-auto max-w-lg pb-8">
         <header className="sticky top-0 z-10 flex items-center gap-3 bg-white px-4 py-4 border-b border-gray-100">
-          <Link href="/" className="text-2xl text-gray-900">←</Link>
+          <Link href="/" className="text-2xl text-gray-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 rounded" aria-label="뒤로 가기">←</Link>
           <h1 className="text-xl font-semibold text-gray-900">예산 설정</h1>
         </header>
-        <main className="p-4">
+        <main id="main-content" className="p-4" tabIndex={-1}>
           <div className="space-y-4">
             {Array.from({ length: 5 }).map((_, i) => (
               <div key={i} className="rounded-lg border border-gray-200 p-4">
@@ -97,11 +97,11 @@ export function BudgetForm({ userId, yearMonth }: Props) {
     <div className="mx-auto max-w-lg pb-24 min-h-screen bg-white">
       {/* 헤더 */}
       <header className="sticky top-0 z-10 flex items-center gap-3 bg-white px-4 py-4 border-b border-gray-100">
-        <Link href="/" className="text-2xl text-gray-900">←</Link>
+        <Link href="/" className="text-2xl text-gray-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 rounded" aria-label="뒤로 가기">←</Link>
         <h1 className="text-xl font-semibold text-gray-900">예산 설정</h1>
       </header>
 
-      <main className="p-4">
+      <main id="main-content" className="p-4" tabIndex={-1}>
         {/* 월 선택 - Pencil: height 48, padding 12 */}
         <div className="mb-4 flex items-center justify-between rounded-lg bg-white h-12 px-3 border border-gray-200">
           <span className="text-base text-gray-900">{yearMonth.replace('-', '년 ')}월</span>

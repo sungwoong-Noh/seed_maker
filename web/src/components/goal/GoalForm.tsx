@@ -68,10 +68,10 @@ export function GoalForm({ userId, yearMonth }: Props) {
     return (
       <div className="mx-auto max-w-lg pb-24">
         <header className="sticky top-0 z-10 flex items-center gap-3 bg-white px-4 py-4 border-b border-gray-100">
-          <Link href="/" className="text-2xl text-gray-900">←</Link>
+          <Link href="/" className="text-2xl text-gray-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 rounded" aria-label="뒤로 가기">←</Link>
           <h1 className="text-xl font-semibold text-gray-900">목표 설정</h1>
         </header>
-        <main className="px-4 py-6 space-y-4">
+        <main id="main-content" className="px-4 py-6 space-y-4" tabIndex={-1}>
           <div className="rounded-xl bg-gray-50 p-5 space-y-2">
             <div className="h-4 w-24 bg-gray-200 rounded animate-pulse" />
             <div className="h-8 w-32 bg-gray-200 rounded animate-pulse" />
@@ -93,11 +93,11 @@ export function GoalForm({ userId, yearMonth }: Props) {
   return (
     <div className="mx-auto max-w-lg min-h-screen bg-white pb-24">
       <header className="sticky top-0 z-10 flex items-center gap-3 bg-white px-4 py-4 border-b border-gray-100">
-        <Link href="/" className="text-2xl text-gray-900">←</Link>
+        <Link href="/" className="text-2xl text-gray-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 rounded" aria-label="뒤로 가기">←</Link>
         <h1 className="text-xl font-semibold text-gray-900">목표 설정</h1>
       </header>
 
-      <main className="p-4 space-y-4">
+      <main id="main-content" className="p-4 space-y-4" tabIndex={-1}>
         {/* 목표 달성까지 카드 - Pencil: height 140, padding 20, gap 8 */}
         {target > 0 && monthsToGoal !== null && (
           <div className="rounded-xl bg-gray-50 p-5 min-h-[140px] flex flex-col justify-center gap-2 transition-shadow duration-200 hover:shadow-md">

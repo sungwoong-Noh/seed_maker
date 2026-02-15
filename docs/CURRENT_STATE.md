@@ -42,6 +42,7 @@
 - ✅ **페이지 전환 애니메이션** (Framer Motion, fade+slide)
 - ✅ **카드 호버 효과** (hover:shadow-md)
 - ✅ **버튼 클릭 피드백** (active:scale-98)
+- ✅ **접근성 개선** (aria-label, SkipLink, 포커스 링, Input 라벨 연동)
 
 ### 4. 이슈 해결 (7개)
 1. Tailwind CSS import 에러
@@ -68,11 +69,11 @@
 - [x] 카드 호버 효과 (hover:shadow-md)
 - [x] 버튼 클릭 피드백 (active:scale-98)
 
-### 2. 접근성 개선 (Medium)
-- [ ] 키보드 네비게이션
-- [ ] 스크린 리더 지원 (aria-label)
+### 2. 접근성 개선 (Medium) ✅ 완료
+- [x] 키보드 네비게이션 (SkipLink, focus 순서)
+- [x] 스크린 리더 지원 (aria-label, aria-current, aria-invalid)
 - [ ] 색상 대비 확인 (WCAG 2.1)
-- [ ] 포커스 인디케이터
+- [x] 포커스 인디케이터 (focus-visible:ring-2)
 
 ### 3. 성능 최적화 (Low)
 - [ ] 이미지 최적화 (Next.js Image)
