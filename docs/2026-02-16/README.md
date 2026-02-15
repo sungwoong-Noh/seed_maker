@@ -25,7 +25,8 @@
 2. PageTransition (fade + slide)
 3. 카드 호버 효과 (hover:shadow-md)
 4. 버튼 클릭 피드백 (active:scale)
-5. CURRENT_STATE.md 최신화
+5. **접근성 개선** (aria-label, SkipLink, 포커스 링, Input 연동)
+6. CURRENT_STATE.md 최신화
 
 ---
 
