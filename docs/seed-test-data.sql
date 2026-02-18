@@ -22,7 +22,8 @@ DECLARE
   v_i int;
 BEGIN
   -- 본인 이메일로 user_id 조회 (이메일 수정 후 사용)
-  SELECT id INTO v_user_id FROM auth.users WHERE email = 'asdz453@gmail.com' LIMIT 1;
+  -- 아래 이메일을 본인 계정으로 변경하세요
+  SELECT id INTO v_user_id FROM auth.users WHERE email = 'YOUR_EMAIL@example.com' LIMIT 1;
   IF v_user_id IS NULL THEN
     RAISE EXCEPTION 'user_id를 찾을 수 없습니다. YOUR_EMAIL@example.com 을 실제 이메일로 바꾸세요.';
   END IF;

@@ -15,7 +15,7 @@ export default defineConfig({
     {
       name: "setup",
       testMatch: /.*\.setup\.ts/,
-      use: { headless: false },
+      use: { headless: !!process.env.CI },
     },
     {
       name: "chromium",
