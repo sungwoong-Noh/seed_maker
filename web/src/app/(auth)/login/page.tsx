@@ -36,7 +36,7 @@ export default function LoginPage() {
       <div className="w-full max-w-sm rounded-2xl border border-emerald-100 bg-white p-8 shadow-sm">
         <div className="mb-6 text-center">
           <h1 className="text-2xl font-bold text-emerald-800">🌱 Seed Maker</h1>
-          <p className="mt-2 text-sm text-emerald-600">로그인</p>
+          <p className="mt-2 text-sm text-emerald-700">로그인</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -72,15 +72,15 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-lg bg-emerald-600 py-2.5 text-sm font-medium text-white hover:bg-emerald-700 disabled:opacity-50"
+            className="w-full rounded-lg bg-emerald-700 py-2.5 text-sm font-medium text-white hover:bg-emerald-800 disabled:opacity-50"
           >
             {loading ? "로그인 중..." : "로그인"}
           </button>
         </form>
 
-        <p className="mt-4 text-center text-sm text-gray-500">
+        <p className="mt-4 text-center text-sm text-gray-600">
           계정이 없으신가요?{" "}
-          <Link href="/signup" className="font-medium text-emerald-600 hover:underline">
+          <Link href="/signup" className="font-medium text-emerald-700 hover:underline">
             회원가입
           </Link>
         </p>

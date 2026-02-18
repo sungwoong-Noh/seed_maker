@@ -65,7 +65,7 @@ export function BudgetChart({ data }: Props) {
               tickFormatter={(v) => `${(v / 10000).toFixed(0)}만`}
             />
             <Tooltip
-              formatter={(value: number) => formatKRW(value)}
+              formatter={(value: number | undefined) => formatKRW(value ?? 0)}
               contentStyle={{
                 backgroundColor: "#ffffff",
                 color: "#111827",

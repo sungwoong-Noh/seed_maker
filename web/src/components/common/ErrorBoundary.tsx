@@ -88,7 +88,7 @@ export class ErrorBoundary extends Component<Props, State> {
             <div className="flex gap-3">
               <button
                 onClick={this.reset}
-                className="flex-1 rounded-lg bg-emerald-600 py-3 font-medium text-white hover:bg-emerald-700"
+                className="flex-1 rounded-lg bg-emerald-700 py-3 font-medium text-white hover:bg-emerald-800"
               >
                 다시 시도
               </button>

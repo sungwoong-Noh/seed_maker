@@ -48,7 +48,7 @@ export default function SignupPage() {
       <div className="w-full max-w-sm rounded-2xl border border-emerald-100 bg-white p-8 shadow-sm">
         <div className="mb-6 text-center">
           <h1 className="text-2xl font-bold text-emerald-800">🌱 Seed Maker</h1>
-          <p className="mt-2 text-sm text-emerald-600">회원가입</p>
+          <p className="mt-2 text-sm text-emerald-700">회원가입</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -78,7 +78,7 @@ export default function SignupPage() {
               minLength={6}
               className="mt-1 block w-full rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-900 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
             />
-            <p className="mt-0.5 text-xs text-gray-500">6자 이상</p>
+            <p className="mt-0.5 text-xs text-gray-600">6자 이상</p>
           </div>
           <div>
             <label htmlFor="confirm" className="block text-sm font-medium text-gray-700">
@@ -99,15 +99,15 @@ export default function SignupPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-lg bg-emerald-600 py-2.5 text-sm font-medium text-white hover:bg-emerald-700 disabled:opacity-50"
+            className="w-full rounded-lg bg-emerald-700 py-2.5 text-sm font-medium text-white hover:bg-emerald-800 disabled:opacity-50"
           >
             {loading ? "가입 중..." : "회원가입"}
           </button>
         </form>
 
-        <p className="mt-4 text-center text-sm text-gray-500">
+        <p className="mt-4 text-center text-sm text-gray-600">
           이미 계정이 있으신가요?{" "}
-          <Link href="/login" className="font-medium text-emerald-600 hover:underline">
+          <Link href="/login" className="font-medium text-emerald-700 hover:underline">
             로그인
           </Link>
         </p>

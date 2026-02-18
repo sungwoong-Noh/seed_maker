@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useDividendStocks } from "@/hooks/useDividendStocks";
 import { AddStockModal } from "./AddStockModal";
 import { formatKRW } from "@/lib/format";
-import { showSuccess, showError } from "@/lib/toast";
 import { BottomNav } from "@/components/common/BottomNav";
 
 type Props = {
@@ -23,7 +22,7 @@ type Stock = {
 };
 
 export function PortfolioList({ userId }: Props) {
-  const { stocks, isLoading, deleteStock } = useDividendStocks(userId);
+  const { stocks, isLoading } = useDividendStocks(userId);
   const [showAdd, setShowAdd] = useState(false);
 
   const totalMonthlyDividend = stocks.reduce((sum, s) => {
@@ -67,16 +66,16 @@ export function PortfolioList({ userId }: Props) {
         {/* 현재 월 배당금 카드 - Pencil: height 120, padding 20, gap 8 */}
         <div className="rounded-xl bg-gray-50 p-5 min-h-[120px] flex flex-col justify-center gap-2 transition-shadow duration-200 hover:shadow-md">
           <p className="text-base font-semibold text-gray-900">현재 월 배당금</p>
-          <p className="text-[32px] font-bold text-emerald-600">
+          <p className="text-[32px] font-bold text-emerald-700">
             {formatKRW(totalMonthlyDividend)}
           </p>
-          <p className="text-xs text-gray-500">* 주당 연 배당금 기준 월 환산</p>
+          <p className="text-xs text-gray-600">* 주당 연 배당금 기준 월 환산</p>
         </div>
 
         {/* 종목 추가 버튼 - Pencil: height 48, padding 12, cornerRadius 12 */}
         <button
           onClick={() => setShowAdd(true)}
-          className="w-full h-12 rounded-xl bg-emerald-600 flex items-center justify-center text-base font-semibold text-white hover:bg-emerald-700 active:scale-[0.98] transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2"
+          className="w-full h-12 rounded-xl bg-emerald-700 flex items-center justify-center text-base font-semibold text-white hover:bg-emerald-800 active:scale-[0.98] transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2"
           aria-label="종목 추가"
         >
           + 종목 추가
@@ -96,14 +95,14 @@ export function PortfolioList({ userId }: Props) {
                   {s.ticker ? `${s.ticker} - ` : ""}
                   {s.name}
                 </p>
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-gray-600">
                   {s.quantity}주 · 월 {formatKRW(monthlyDiv)} 배당
                 </p>
               </div>
             );
           })}
           {stocks.length === 0 && (
-            <div className="py-12 text-center text-sm text-gray-500">
+            <div className="py-12 text-center text-sm text-gray-600">
               보유 종목이 없어요. 배당주를 추가해보세요!
             </div>
           )}

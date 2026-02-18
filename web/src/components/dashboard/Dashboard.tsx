@@ -1,24 +1,45 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
+import dynamic from "next/dynamic";
 import { useDashboard } from "@/hooks/useDashboard";
+import { useDashboardTrend } from "@/hooks/useDashboardTrend";
 import { useExpenses } from "@/hooks/useExpenses";
 import { useAuth } from "@/hooks/useAuth";
 import { AddExpenseModal } from "./AddExpenseModal";
-import { BudgetChart } from "./BudgetChart";
 import { formatKRW } from "@/lib/format";
 import { BottomNav } from "@/components/common/BottomNav";
 import { getCategoryIcon } from "@/lib/categoryIcons";
 
+const BudgetChart = dynamic(() => import("./BudgetChart").then((m) => ({ default: m.BudgetChart })), {
+  ssr: false,
+  loading: () => (
+    <div className="rounded-xl bg-gray-50 p-4 min-h-[200px] animate-pulse flex items-center justify-center">
+      <span className="text-sm text-gray-500">차트 로딩...</span>
+    </div>
+  ),
+});
+
+const SeedMoneyTrendChart = dynamic(
+  () => import("./SeedMoneyTrendChart").then((m) => ({ default: m.SeedMoneyTrendChart })),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="rounded-xl bg-gray-50 p-4 min-h-[200px] animate-pulse flex items-center justify-center">
+        <span className="text-sm text-gray-500">트렌드 로딩...</span>
+      </div>
+    ),
+  }
+);
+
 type Props = {
   userId: string;
   yearMonth: string;
-  userEmail: string;
 };
 
-export function Dashboard({ userId, yearMonth, userEmail }: Props) {
+export function Dashboard({ userId, yearMonth }: Props) {
   const { data, isLoading, error } = useDashboard(userId, yearMonth);
+  const { trend } = useDashboardTrend(6);
   const { expenses } = useExpenses(userId, yearMonth);
   const { signOut } = useAuth();
   const [showAddModal, setShowAddModal] = useState(false);
@@ -26,7 +47,7 @@ export function Dashboard({ userId, yearMonth, userEmail }: Props) {
   if (isLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <div className="text-emerald-600">로딩 중...</div>
+        <div className="text-emerald-700">로딩 중...</div>
       </div>
     );
   }
@@ -37,11 +58,11 @@ export function Dashboard({ userId, yearMonth, userEmail }: Props) {
         <p className="text-center text-red-600">
           데이터를 불러올 수 없습니다. Supabase SQL Editor에서 마이그레이션을 실행했는지 확인하세요.
         </p>
-        <p className="text-center text-sm text-gray-500">
+        <p className="text-center text-sm text-gray-600">
           supabase/migrations/20250213000000_initial_schema.sql
         </p>
         {error && (
-          <p className="max-w-md text-center text-xs text-gray-500">
+          <p className="max-w-md text-center text-xs text-gray-600">
             {String(error)}
           </p>
         )}
@@ -71,7 +92,7 @@ export function Dashboard({ userId, yearMonth, userEmail }: Props) {
           {/* 씨앗돈 카드 - Pencil: height 140, padding 20, gap 8 */}
           <section className="rounded-xl bg-gray-50 p-5 min-h-[140px] flex flex-col justify-center gap-2 transition-shadow duration-200 hover:shadow-md">
             <h2 className="text-base font-semibold text-gray-900">🌱 이번 달 씨앗돈</h2>
-            <p className="text-[32px] font-bold text-emerald-600">
+            <p className="text-[32px] font-bold text-emerald-700">
               {formatKRW(data.seedMoney)}
             </p>
             <p className="text-sm text-gray-600">
@@ -85,14 +106,14 @@ export function Dashboard({ userId, yearMonth, userEmail }: Props) {
               <h2 className="text-base font-semibold text-gray-900">목표 월 배당금</h2>
               <div className="h-2 overflow-hidden rounded bg-gray-200">
                 <div
-                  className="h-full rounded bg-blue-600 transition-all duration-500"
+                  className="h-full rounded bg-blue-700 transition-all duration-500"
                   style={{ width: `${progressPercent}%` }}
                 />
               </div>
               <p className="text-sm text-gray-600">
                 {formatKRW(data.currentMonthlyDividend)} / {formatKRW(data.targetMonthlyDividend)}
               </p>
-              <p className="text-sm font-semibold text-blue-600">
+              <p className="text-sm font-semibold text-blue-700">
                 {data.monthsToGoal != null
                   ? `달성까지 약 ${data.monthsToGoal}개월`
                   : "목표를 설정해보세요"}
@@ -115,6 +136,9 @@ export function Dashboard({ userId, yearMonth, userEmail }: Props) {
           <BudgetChart data={data.byCategory} />
         )}
 
+        {/* 월별 씨앗돈 트렌드 */}
+        {trend.length > 0 && <SeedMoneyTrendChart data={trend} />}
+
         {/* 최근 지출 */}
         <section>
           <h2 className="mb-4 text-base font-semibold text-gray-900">최근 지출</h2>
@@ -131,7 +155,7 @@ export function Dashboard({ userId, yearMonth, userEmail }: Props) {
                     <span className="text-2xl">{getCategoryIcon(categoryName)}</span>
                     <span className="text-base font-semibold text-gray-900">{formatKRW(e.amount)}</span>
                   </div>
-                  <span className="text-sm text-gray-500">{daysAgo}</span>
+                  <span className="text-sm text-gray-600">{daysAgo}</span>
                 </div>
               );
             })}
@@ -148,7 +172,7 @@ export function Dashboard({ userId, yearMonth, userEmail }: Props) {
       {/* FAB */}
       <button
         onClick={() => setShowAddModal(true)}
-        className="fixed bottom-24 right-4 flex h-14 w-14 items-center justify-center rounded-full bg-blue-600 text-white shadow-lg hover:bg-blue-700 hover:scale-105 active:scale-95 transition-transform duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+        className="fixed bottom-24 right-4 flex h-14 w-14 items-center justify-center rounded-full bg-blue-700 text-white shadow-lg hover:bg-blue-800 hover:scale-105 active:scale-95 transition-transform duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"
         aria-label="지출 추가"
       >
         <span className="text-[32px] font-semibold leading-none">+</span>

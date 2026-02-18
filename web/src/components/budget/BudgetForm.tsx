@@ -105,7 +105,7 @@ export function BudgetForm({ userId, yearMonth }: Props) {
         {/* 월 선택 - Pencil: height 48, padding 12 */}
         <div className="mb-4 flex items-center justify-between rounded-lg bg-white h-12 px-3 border border-gray-200">
           <span className="text-base text-gray-900">{yearMonth.replace('-', '년 ')}월</span>
-          <span className="text-sm text-gray-500">▼</span>
+          <span className="text-sm text-gray-600">▼</span>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -120,7 +120,7 @@ export function BudgetForm({ userId, yearMonth }: Props) {
               
               {/* 입력 필드 - Pencil: height 48, padding 12 */}
               <div className="flex items-center gap-1 rounded-lg bg-white h-12 px-3 border border-gray-200">
-                <span className="text-base text-gray-500">₩</span>
+                <span className="text-base text-gray-600">₩</span>
                 <input
                   type="text"
                   inputMode="numeric"
@@ -142,13 +142,13 @@ export function BudgetForm({ userId, yearMonth }: Props) {
           <div className="pt-4 border-t border-gray-200">
             <div className="flex items-center justify-between rounded-xl bg-gray-50 min-h-[60px] px-4 mb-4">
               <span className="text-base font-semibold text-gray-900">총 예산:</span>
-              <span className="text-xl font-bold text-emerald-600">{formatKRW(totalBudget)}</span>
+              <span className="text-xl font-bold text-emerald-700">{formatKRW(totalBudget)}</span>
             </div>
             
             {/* 저장 버튼 - 목표 페이지와 통일: emerald */}
             <button
               type="submit"
-              className="w-full h-12 rounded-xl bg-emerald-600 flex items-center justify-center text-base font-semibold text-white hover:bg-emerald-700 active:scale-[0.98] transition-all duration-150"
+              className="w-full h-12 rounded-xl bg-emerald-700 flex items-center justify-center text-base font-semibold text-white hover:bg-emerald-800 active:scale-[0.98] transition-all duration-150"
             >
               {saved ? "저장됨 ✓" : "저장"}
             </button>

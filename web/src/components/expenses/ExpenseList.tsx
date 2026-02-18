@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useExpenses } from "@/hooks/useExpenses";
 import { AddExpenseModal } from "@/components/dashboard/AddExpenseModal";
 import { formatKRW } from "@/lib/format";
-import { showSuccess, showError } from "@/lib/toast";
 import { BottomNav } from "@/components/common/BottomNav";
 
 type Props = {
@@ -14,7 +13,7 @@ type Props = {
 };
 
 export function ExpenseList({ userId, yearMonth }: Props) {
-  const { expenses, isLoading, deleteExpense } = useExpenses(userId, yearMonth);
+  const { expenses } = useExpenses(userId, yearMonth);
   const [showAdd, setShowAdd] = useState(false);
 
   // 로딩 상태는 Suspense에서 처리
@@ -32,7 +31,7 @@ export function ExpenseList({ userId, yearMonth }: Props) {
         {/* 지출 추가 버튼 - Pencil: height 48, padding 12 */}
         <button
           onClick={() => setShowAdd(true)}
-          className="w-full h-12 rounded-xl bg-emerald-600 flex items-center justify-center text-base font-semibold text-white hover:bg-emerald-700 active:scale-[0.98] transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2"
+          className="w-full h-12 rounded-xl bg-emerald-700 flex items-center justify-center text-base font-semibold text-white hover:bg-emerald-800 active:scale-[0.98] transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2"
           aria-label="지출 추가"
         >
           + 지출 추가
@@ -57,7 +56,7 @@ export function ExpenseList({ userId, yearMonth }: Props) {
             <div className="py-16 text-center">
               <div className="text-4xl mb-3">📝</div>
               <p className="text-base text-gray-600">지출 기록이 없어요</p>
-              <p className="text-sm text-gray-500 mt-1">위 버튼을 눌러 추가해보세요!</p>
+              <p className="text-sm text-gray-600 mt-1">위 버튼을 눌러 추가해보세요!</p>
             </div>
           )}
         </div>
