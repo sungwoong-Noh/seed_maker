@@ -4,12 +4,6 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { createClient } from "@/lib/supabase/client";
 import type { Expense } from "@/types";
 
-function getYearMonth(date: Date) {
-  const y = date.getFullYear();
-  const m = String(date.getMonth() + 1).padStart(2, "0");
-  return `${y}-${m}`;
-}
-
 function getMonthRange(yearMonth: string) {
   const [y, m] = yearMonth.split("-").map(Number);
   const start = new Date(y, m - 1, 1);

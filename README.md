@@ -147,10 +147,17 @@ http://localhost:3000/signup
 
 ## 프로젝트 문서
 
+### 📍 시작하기
+- **현재 상태**: [`docs/CURRENT_STATE.md`](docs/CURRENT_STATE.md) ⭐ **여기서 시작하세요!**
 - **개발 진행도**: [`docs/2026-02-14_진행도.md`](docs/2026-02-14_진행도.md) - 현재 개발 상태 및 로드맵
+
+### 📋 기획 및 설계
 - **기획**: [`docs/user-scenarios.md`](docs/user-scenarios.md), [`docs/screens.md`](docs/screens.md)
 - **설계**: [`docs/db-schema.md`](docs/db-schema.md), [`docs/api-spec.md`](docs/api-spec.md)
 - **디자인**: [`designs/화면기획서_1.pen`](designs/화면기획서_1.pen)
+
+### 📝 작업 로그
+- **2026-02-14**: [`docs/2026-02-14/README.md`](docs/2026-02-14/README.md) - UI/UX 개선 작업
 
 ## 라이선스
 

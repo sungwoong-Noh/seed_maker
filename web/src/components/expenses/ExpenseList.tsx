@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useExpenses } from "@/hooks/useExpenses";
 import { AddExpenseModal } from "@/components/dashboard/AddExpenseModal";
 import { formatKRW } from "@/lib/format";
+import { BottomNav } from "@/components/common/BottomNav";
 
 type Props = {
   userId: string;
@@ -12,67 +13,56 @@ type Props = {
 };
 
 export function ExpenseList({ userId, yearMonth }: Props) {
-  const { expenses, isLoading, deleteExpense } = useExpenses(userId, yearMonth);
+  const { expenses } = useExpenses(userId, yearMonth);
   const [showAdd, setShowAdd] = useState(false);
 
-  if (isLoading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <div className="text-emerald-600">로딩 중...</div>
-      </div>
-    );
-  }
+  // 로딩 상태는 Suspense에서 처리
 
   return (
-    <div className="mx-auto max-w-lg pb-24">
-      <header className="sticky top-0 z-10 flex items-center justify-between border-b border-emerald-100 bg-white/90 px-4 py-3 backdrop-blur">
-        <Link href="/" className="text-lg font-bold text-emerald-800">
-          🌱 Seed Maker
-        </Link>
-        <h2 className="text-sm font-medium text-gray-700">지출 목록</h2>
+    <div className="mx-auto max-w-lg pb-24 min-h-screen bg-white">
+      {/* 헤더 */}
+      <header className="sticky top-0 z-10 flex items-center gap-3 bg-white px-4 py-4 border-b border-gray-100">
+        <Link href="/" className="text-2xl text-gray-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 rounded" aria-label="뒤로 가기">←</Link>
+        <h1 className="text-xl font-semibold text-gray-900">지출 목록</h1>
       </header>
 
-      <main className="px-4 py-6">
-        <div className="flex justify-end mb-4">
-          <button
-            onClick={() => setShowAdd(true)}
-            className="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700"
-          >
-            + 지출 추가
-          </button>
-        </div>
+      {/* 메인 콘텐츠 */}
+      <main id="main-content" className="p-4 space-y-4" tabIndex={-1}>
+        {/* 지출 추가 버튼 - Pencil: height 48, padding 12 */}
+        <button
+          onClick={() => setShowAdd(true)}
+          className="w-full h-12 rounded-xl bg-emerald-700 flex items-center justify-center text-base font-semibold text-white hover:bg-emerald-800 active:scale-[0.98] transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2"
+          aria-label="지출 추가"
+        >
+          + 지출 추가
+        </button>
 
-        <div className="rounded-xl border border-gray-100 bg-white divide-y">
+        {/* 지출 목록 - Pencil: height 72, padding 16, gap 4 */}
+        <div className="space-y-4">
           {expenses.map((e: { id: string; amount: number; spent_at: string; memo?: string | null; category?: { name: string } }) => (
             <div
               key={e.id}
-              className="flex items-center justify-between px-4 py-3"
+              className="bg-gray-50 rounded-xl p-4 min-h-[72px] flex flex-col justify-center gap-1 transition-shadow duration-200 hover:shadow-md"
             >
-              <div>
-                <p className="font-medium text-gray-800">{formatKRW(e.amount)}</p>
-                <p className="text-xs text-gray-500">
-                  {(e.category as { name?: string })?.name ?? "-"} · {e.spent_at}
-                  {e.memo ? ` · ${e.memo}` : ""}
-                </p>
-              </div>
-              <button
-                onClick={() => {
-                  if (confirm("삭제할까요?")) deleteExpense(e.id);
-                }}
-                className="text-sm text-red-500 hover:text-red-700"
-              >
-                삭제
-              </button>
+              <p className="text-lg font-semibold text-gray-900">{formatKRW(e.amount)}</p>
+              <p className="text-sm text-gray-600">
+                {(e.category as { name?: string })?.name ?? "-"} · {e.spent_at}
+                {e.memo ? ` · ${e.memo}` : ""}
+              </p>
             </div>
           ))}
+          
           {expenses.length === 0 && (
-            <div className="px-4 py-12 text-center text-sm text-gray-500">
-              지출 기록이 없어요. 추가해보세요!
+            <div className="py-16 text-center">
+              <div className="text-4xl mb-3">📝</div>
+              <p className="text-base text-gray-600">지출 기록이 없어요</p>
+              <p className="text-sm text-gray-600 mt-1">위 버튼을 눌러 추가해보세요!</p>
             </div>
           )}
         </div>
       </main>
 
+      {/* 지출 추가 모달 */}
       {showAdd && (
         <AddExpenseModal
           userId={userId}
@@ -81,6 +71,9 @@ export function ExpenseList({ userId, yearMonth }: Props) {
           onSuccess={() => setShowAdd(false)}
         />
       )}
+
+      {/* 하단 네비게이션 */}
+      <BottomNav />
     </div>
   );
 }

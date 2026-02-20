@@ -21,7 +21,6 @@ export default async function HomePage() {
     <Dashboard
       userId={user.id}
       yearMonth={yearMonth}
-      userEmail={user.email ?? ""}
     />
   );
 }

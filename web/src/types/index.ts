@@ -70,3 +70,9 @@ export type DashboardData = {
   monthsToGoal: number | null;
   streakDays: number;
 };
+
+export type TrendItem = {
+  yearMonth: string;
+  label: string;
+  seedMoney: number;
+};
