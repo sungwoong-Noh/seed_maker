@@ -5,15 +5,6 @@ export async function createClient() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-  // 디버그: 환경 변수 상태 출력
-  console.log("[server.ts] Environment check:", {
-    hasUrl: !!supabaseUrl,
-    hasKey: !!supabaseKey,
-    urlValue: supabaseUrl,
-    keyPreview: supabaseKey?.substring(0, 30) + "...",
-    allSupabaseEnvKeys: Object.keys(process.env).filter(k => k.includes("SUPABASE"))
-  });
-
   if (!supabaseUrl || !supabaseKey) {
     throw new Error(
       `Supabase 환경 변수가 로드되지 않았습니다.\n` +
