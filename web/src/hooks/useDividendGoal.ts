@@ -27,6 +27,7 @@ export function useDividendGoal(userId: string | undefined) {
     mutationFn: async (goal: {
       target_monthly_dividend: number;
       extra_monthly_deposit?: number;
+      monthly_salary?: number;
     }) => {
       if (!userId) throw new Error("Not authenticated");
       const existing = query.data;
@@ -34,6 +35,7 @@ export function useDividendGoal(userId: string | undefined) {
         user_id: userId,
         target_monthly_dividend: goal.target_monthly_dividend,
         extra_monthly_deposit: goal.extra_monthly_deposit ?? 0,
+        monthly_salary: goal.monthly_salary ?? 0,
       };
       if (existing) {
         const { data, error } = await supabase

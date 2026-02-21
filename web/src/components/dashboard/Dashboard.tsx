@@ -89,37 +89,57 @@ export function Dashboard({ userId, yearMonth }: Props) {
       <main id="main-content" className="p-4 space-y-4" tabIndex={-1}>
         {/* 주요 카드 */}
         <div className="space-y-4">
-          {/* 씨앗돈 카드 - Pencil: height 140, padding 20, gap 8 */}
-          <section className="rounded-xl bg-gray-50 p-5 min-h-[140px] flex flex-col justify-center gap-2 transition-shadow duration-200 hover:shadow-md">
-            <h2 className="text-base font-semibold text-gray-900">🌱 이번 달 씨앗돈</h2>
-            <p className="text-[32px] font-bold text-emerald-700">
-              {formatKRW(data.seedMoney)}
-            </p>
-            <p className="text-sm text-gray-600">
-              씨앗 {data.seedCount}알 수확!
-            </p>
-          </section>
-
-          {/* 목표 진행률 - Pencil: height 140, padding 20, gap 12 */}
-          {data.targetMonthlyDividend > 0 && (
-            <section className="rounded-xl bg-gray-50 p-5 min-h-[140px] flex flex-col justify-center gap-3 transition-shadow duration-200 hover:shadow-md">
-              <h2 className="text-base font-semibold text-gray-900">목표 월 배당금</h2>
-              <div className="h-2 overflow-hidden rounded bg-gray-200">
-                <div
-                  className="h-full rounded bg-blue-700 transition-all duration-500"
-                  style={{ width: `${progressPercent}%` }}
-                />
-              </div>
-              <p className="text-sm text-gray-600">
-                {formatKRW(data.currentMonthlyDividend)} / {formatKRW(data.targetMonthlyDividend)}
+          {/* 투자 가능 금액 카드 */}
+          {data.salary > 0 ? (
+            <section className="rounded-xl bg-emerald-50 p-5 min-h-[140px] flex flex-col justify-center gap-2 transition-shadow duration-200 hover:shadow-md">
+              <h2 className="text-base font-semibold text-gray-900">💰 이번 달 투자 가능 금액</h2>
+              <p className="text-[32px] font-bold text-emerald-700">
+                {formatKRW(data.investableAmount)}
               </p>
-              <p className="text-sm font-semibold text-blue-700">
-                {data.monthsToGoal != null
-                  ? `달성까지 약 ${data.monthsToGoal}개월`
-                  : "목표를 설정해보세요"}
+              <p className="text-sm text-gray-600">
+                급여 {formatKRW(data.salary)} - 실지출 {formatKRW(data.expenseTotal)}
+                {data.fixedExpense > 0 && ` - 고정지출 ${formatKRW(data.fixedExpense)}`}
               </p>
             </section>
+          ) : (
+            <section className="rounded-xl bg-gray-50 p-5 min-h-[100px] flex flex-col justify-center gap-2 transition-shadow duration-200 hover:shadow-md">
+              <h2 className="text-base font-semibold text-gray-900">💰 투자 가능 금액</h2>
+              <p className="text-sm text-gray-600">급여를 설정하면 투자 가능 금액을 확인할 수 있어요</p>
+              <a href="/goal" className="text-sm font-semibold text-emerald-700 underline">목표 설정에서 급여 입력하기 →</a>
+            </section>
           )}
+
+          {/* 실지출 + 배당 목표 2열 */}
+          <div className="grid grid-cols-2 gap-3">
+            {/* 이번 달 실지출 */}
+            <section className="rounded-xl bg-gray-50 p-4 flex flex-col justify-center gap-1 transition-shadow duration-200 hover:shadow-md">
+              <h2 className="text-sm font-semibold text-gray-900">📝 이번 달 지출</h2>
+              <p className="text-xl font-bold text-gray-900">
+                {formatKRW(data.expenseTotal)}
+              </p>
+              {data.fixedExpense > 0 && (
+                <p className="text-xs text-gray-500">고정 {formatKRW(data.fixedExpense)} 별도</p>
+              )}
+            </section>
+
+            {/* 배당 목표 진행률 */}
+            <section className="rounded-xl bg-gray-50 p-4 flex flex-col justify-center gap-1 transition-shadow duration-200 hover:shadow-md">
+              <h2 className="text-sm font-semibold text-gray-900">배당 목표</h2>
+              {data.targetMonthlyDividend > 0 ? (
+                <>
+                  <p className="text-xl font-bold text-blue-700">{progressPercent}%</p>
+                  <div className="h-1.5 overflow-hidden rounded bg-gray-200">
+                    <div
+                      className="h-full rounded bg-blue-700 transition-all duration-500"
+                      style={{ width: `${progressPercent}%` }}
+                    />
+                  </div>
+                </>
+              ) : (
+                <p className="text-xs text-gray-500">목표 미설정</p>
+              )}
+            </section>
+          </div>
         </div>
 
         {/* 스트릭 - Pencil: height 60, padding 16 */}

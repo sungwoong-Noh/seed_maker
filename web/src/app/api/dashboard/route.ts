@@ -17,12 +17,7 @@ export async function GET(request: Request) {
 
   const [start, end] = getMonthRange(yearMonth);
 
-  const [budgetsRes, expensesRes, stocksRes, goalsRes] = await Promise.all([
-    supabase
-      .from("budgets")
-      .select("category_id, amount")
-      .eq("user_id", user.id)
-      .eq("year_month", yearMonth),
+  const [expensesRes, stocksRes, goalsRes, fixedExpensesRes] = await Promise.all([
     supabase
       .from("expenses")
       .select("category_id, amount")
@@ -35,10 +30,14 @@ export async function GET(request: Request) {
       .eq("user_id", user.id),
     supabase
       .from("dividend_goals")
-      .select("target_monthly_dividend, extra_monthly_deposit")
+      .select("target_monthly_dividend, extra_monthly_deposit, monthly_salary")
       .eq("user_id", user.id)
       .limit(1)
       .single(),
+    supabase
+      .from("fixed_expenses")
+      .select("amount")
+      .eq("user_id", user.id),
   ]);
 
   const categoriesRes = await supabase.from("categories").select("id, name");
@@ -47,9 +46,6 @@ export async function GET(request: Request) {
     (categoriesRes.data ?? []).map((c) => [c.id, c.name])
   );
 
-  const budgetByCat = new Map(
-    (budgetsRes.data ?? []).map((b) => [b.category_id, Number(b.amount)])
-  );
   const expenseByCat = new Map<string, number>();
   for (const e of expensesRes.data ?? []) {
     expenseByCat.set(
@@ -58,31 +54,23 @@ export async function GET(request: Request) {
     );
   }
 
-  let seedMoney = 0;
   const byCategory: Array<{
     categoryId: string;
     categoryName: string;
-    budget: number;
     actual: number;
-    saved: number;
   }> = [];
 
   for (const [catId, catName] of categories) {
-    const budget = budgetByCat.get(catId) ?? 0;
     const actual = expenseByCat.get(catId) ?? 0;
-    const saved = Math.max(0, budget - actual);
-    seedMoney += saved;
-    byCategory.push({
-      categoryId: catId,
-      categoryName: catName,
-      budget,
-      actual,
-      saved,
-    });
+    byCategory.push({ categoryId: catId, categoryName: catName, actual });
   }
 
-  const budgetTotal = [...budgetByCat.values()].reduce((a, b) => a + b, 0);
   const expenseTotal = [...expenseByCat.values()].reduce((a, b) => a + b, 0);
+
+  const fixedExpense = (fixedExpensesRes.data ?? []).reduce(
+    (sum, r) => sum + Number(r.amount),
+    0
+  );
 
   let currentMonthlyDividend = 0;
   for (const s of stocksRes.data ?? []) {
@@ -93,7 +81,10 @@ export async function GET(request: Request) {
   const goal = goalsRes.data;
   const targetMonthlyDividend = goal ? Number(goal.target_monthly_dividend) : 0;
   const extraDeposit = goal ? Number(goal.extra_monthly_deposit) : 0;
-  const monthlyDeposit = seedMoney + extraDeposit;
+  const salary = goal ? Number(goal.monthly_salary ?? 0) : 0;
+
+  const monthlyDeposit = extraDeposit;
+  const investableAmount = salary > 0 ? salary - fixedExpense - expenseTotal : 0;
 
   const progressPercent =
     targetMonthlyDividend > 0
@@ -115,9 +106,6 @@ export async function GET(request: Request) {
   const streakDays = await getStreakDays(supabase, user.id);
 
   return NextResponse.json({
-    seedMoney,
-    seedCount: Math.floor(seedMoney / 10000),
-    budgetTotal,
     expenseTotal,
     byCategory,
     currentMonthlyDividend,
@@ -125,6 +113,9 @@ export async function GET(request: Request) {
     progressPercent,
     monthsToGoal,
     streakDays,
+    salary,
+    fixedExpense,
+    investableAmount,
   });
 }
 

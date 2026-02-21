@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useDividendGoal } from "@/hooks/useDividendGoal";
-import { useDashboard } from "@/hooks/useDashboard";
+import { useDividendStocks } from "@/hooks/useDividendStocks";
 import { formatKRW } from "@/lib/format";
 import { simulateMonthsToGoal } from "@/lib/simulation";
 import { showSuccess, showError } from "@/lib/toast";
@@ -11,31 +11,31 @@ import { BottomNav } from "@/components/common/BottomNav";
 
 type Props = {
   userId: string;
-  yearMonth: string;
 };
 
 type GoalFormFieldsProps = {
-  goal: { target_monthly_dividend?: number | null; extra_monthly_deposit?: number | null } | null;
-  seedMoney: number;
+  goal: { target_monthly_dividend?: number | null; extra_monthly_deposit?: number | null; monthly_salary?: number | null } | null;
   currentDividend: number;
-  upsertGoal: (v: { target_monthly_dividend: number; extra_monthly_deposit?: number }) => Promise<unknown>;
+  upsertGoal: (v: { target_monthly_dividend: number; extra_monthly_deposit?: number; monthly_salary?: number }) => Promise<unknown>;
 };
 
-function GoalFormFields({ goal, seedMoney, currentDividend, upsertGoal }: GoalFormFieldsProps) {
+function GoalFormFields({ goal, currentDividend, upsertGoal }: GoalFormFieldsProps) {
   const [targetMonthlyDividend, setTargetMonthlyDividend] = useState(
     () => (goal ? String(goal.target_monthly_dividend ?? "") : "")
   );
   const [extraMonthlyDeposit, setExtraMonthlyDeposit] = useState(
     () => (goal ? String(goal.extra_monthly_deposit ?? "") : "")
   );
+  const [monthlySalary, setMonthlySalary] = useState(
+    () => (goal?.monthly_salary ? String(goal.monthly_salary) : "")
+  );
   const [saved, setSaved] = useState(false);
 
   const extra = parseInt(extraMonthlyDeposit.replace(/\D/g, "") || "0", 10);
-  const monthlyDeposit = seedMoney + extra;
   const target = parseInt(targetMonthlyDividend.replace(/\D/g, ""), 10);
   const { monthsToGoal } =
     target > 0
-      ? simulateMonthsToGoal(target, currentDividend, monthlyDeposit)
+      ? simulateMonthsToGoal(target, currentDividend, extra)
       : { monthsToGoal: null };
 
   async function handleSubmit(e: React.FormEvent) {
@@ -48,10 +48,13 @@ function GoalFormFields({ goal, seedMoney, currentDividend, upsertGoal }: GoalFo
       return;
     }
 
+    const salaryNum = parseInt(monthlySalary.replace(/\D/g, "") || "0", 10);
+
     try {
       await upsertGoal({
         target_monthly_dividend: targetNum,
         extra_monthly_deposit: extraNum,
+        monthly_salary: salaryNum,
       });
       showSuccess("목표가 저장되었습니다");
       setSaved(true);
@@ -82,6 +85,24 @@ function GoalFormFields({ goal, seedMoney, currentDividend, upsertGoal }: GoalFo
       )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="rounded-xl bg-white p-4 min-h-[80px] flex flex-col gap-2">
+          <label className="text-sm font-semibold text-gray-900">고정 급여 (월)</label>
+          <div className="flex items-center gap-1 rounded-lg bg-gray-50 h-10 px-3">
+            <span className="text-base text-gray-600">₩</span>
+            <input
+              type="text"
+              inputMode="numeric"
+              value={monthlySalary}
+              onChange={(e) =>
+                setMonthlySalary(e.target.value.replace(/\D/g, ""))
+              }
+              placeholder="3,000,000"
+              className="flex-1 text-base text-gray-900 bg-transparent outline-none"
+            />
+          </div>
+          <p className="text-xs text-gray-500">투자 가능 금액 계산에 사용됩니다</p>
+        </div>
+
         <div className="rounded-xl bg-white p-4 min-h-[80px] flex flex-col gap-2">
           <label className="text-sm font-semibold text-gray-900">목표 월 배당금</label>
           <div className="flex items-center gap-1 rounded-lg bg-gray-50 h-10 px-3">
@@ -117,11 +138,6 @@ function GoalFormFields({ goal, seedMoney, currentDividend, upsertGoal }: GoalFo
           </div>
         </div>
 
-        <div className="rounded-lg bg-gray-50 p-3 min-h-[60px] flex flex-col justify-center gap-1">
-          <p className="text-sm text-gray-600">이번 달 씨앗돈: {formatKRW(seedMoney)}</p>
-          <p className="text-sm text-gray-600">월 총 납입 예상: {formatKRW(monthlyDeposit)}</p>
-        </div>
-
         <button
           type="submit"
           className="w-full h-12 rounded-xl bg-emerald-700 flex items-center justify-center text-base font-semibold text-white hover:bg-emerald-800 active:scale-[0.98] transition-all duration-150"
@@ -133,9 +149,12 @@ function GoalFormFields({ goal, seedMoney, currentDividend, upsertGoal }: GoalFo
   );
 }
 
-export function GoalForm({ userId, yearMonth }: Props) {
+export function GoalForm({ userId }: Props) {
   const { goal, isLoading, upsertGoal } = useDividendGoal(userId);
-  const { data: dashboard } = useDashboard(userId, yearMonth);
+  const { stocks } = useDividendStocks(userId);
+  const currentDividend = stocks.reduce((sum, s) => {
+    return sum + (Number(s.quantity) * Number(s.dividend_per_share)) / 12;
+  }, 0);
 
   if (isLoading) {
     return (
@@ -169,9 +188,6 @@ export function GoalForm({ userId, yearMonth }: Props) {
     );
   }
 
-  const seedMoney = dashboard?.seedMoney ?? 0;
-  const currentDividend = dashboard?.currentMonthlyDividend ?? 0;
-
   return (
     <div className="mx-auto max-w-lg min-h-screen bg-white pb-24">
       <header className="sticky top-0 z-10 flex items-center gap-3 bg-white px-4 py-4 border-b border-gray-100">
@@ -189,7 +205,6 @@ export function GoalForm({ userId, yearMonth }: Props) {
         <GoalFormFields
           key={goal?.id ?? "new"}
           goal={goal}
-          seedMoney={seedMoney}
           currentDividend={currentDividend}
           upsertGoal={upsertGoal}
         />
