@@ -39,7 +39,7 @@ seed_maker/
 
 ## 🎨 Design System (엄격히 따르기)
 **Color Palette:**
-- Primary: `#059669` (emerald-600) - 주요 액션
+- Primary: `#047857` (emerald-700) - 주요 액션 (WCAG 2.1 대비)
 - Card BG: `#F9FAFB` (gray-50)
 - Text Primary: `#111827` (gray-900)
 - Text Secondary: `#6B7280` (gray-500)

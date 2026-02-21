@@ -13,7 +13,7 @@ Seed Maker 프로젝트의 **엄격한 디자인 시스템**을 따르는지 검
 
 ### Color Palette (엄격히 준수)
 ```
-- Primary:           #059669 (emerald-600)  → 주요 액션, 강조
+- Primary:           #047857 (emerald-700)  → 주요 액션, 강조 (WCAG 2.1 대비)
 - Card BG:           #F9FAFB (gray-50)     → 카드 배경
 - Text Primary:      #111827 (gray-900)    → 주요 텍스트
 - Text Secondary:    #6B7280 (gray-500)    → 보조 텍스트
@@ -22,7 +22,7 @@ Seed Maker 프로젝트의 **엄격한 디자인 시스템**을 따르는지 검
 **검증 방법:**
 ```bash
 # 코드에서 색상 검색
-grep -r "#059669\|#F9FAFB\|#111827\|#6B7280\|emerald\|gray" <files>
+grep -r "#047857\|#F9FAFB\|#111827\|#6B7280\|emerald-700\|gray" <files>
 ```
 
 ### Typography (엄격히 준수)
@@ -70,7 +70,7 @@ grep -r "#059669\|#F9FAFB\|#111827\|#6B7280\|emerald\|gray" <files>
 ## 📋 검증 체크리스트
 
 ### 색상 검증
-- [ ] Primary 색상이 #059669 (또는 emerald-600) 사용?
+- [ ] Primary 색상이 #047857 (또는 emerald-700) 사용?
 - [ ] Card 배경이 #F9FAFB (또는 gray-50) 사용?
 - [ ] 텍스트 색상이 정의된 팔레트 내 사용?
 - [ ] 임의의 색상(arbitrary color) 추가 없음?
