@@ -1,6 +1,7 @@
 "use client";
 
 import { ReactNode, useEffect } from "react";
+import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface ModalProps {
@@ -30,7 +31,7 @@ export function Modal({ isOpen, onClose, children, size = "md" }: ModalProps) {
     } else {
       document.body.style.overflow = "unset";
     }
-    
+
     return () => {
       document.body.style.overflow = "unset";
     };
@@ -45,7 +46,7 @@ export function Modal({ isOpen, onClose, children, size = "md" }: ModalProps) {
     >
       <div
         className={cn(
-          "w-full rounded-t-2xl bg-white shadow-xl sm:rounded-2xl",
+          "w-full rounded-t-2xl bg-white shadow-xl sm:rounded-2xl flex flex-col max-h-[90dvh]",
           sizeStyles[size]
         )}
         onClick={(e) => e.stopPropagation()}
@@ -74,22 +75,10 @@ export function ModalHeader({
       {onClose && (
         <button
           onClick={onClose}
-          className="text-gray-600 hover:text-gray-800 transition-colors"
+          className="rounded-full p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors"
           aria-label="닫기"
         >
-          <svg
-            className="h-6 w-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
+          <X className="h-5 w-5" strokeWidth={2} />
         </button>
       )}
     </div>
@@ -106,7 +95,11 @@ export function ModalBody({
   children: ReactNode;
   className?: string;
 }) {
-  return <div className={cn("p-6", className)}>{children}</div>;
+  return (
+    <div className={cn("flex-1 overflow-y-auto p-6", className)}>
+      {children}
+    </div>
+  );
 }
 
 /**
