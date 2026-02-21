@@ -44,6 +44,16 @@ export type DividendGoal = {
   user_id: string;
   target_monthly_dividend: number;
   extra_monthly_deposit: number;
+  monthly_salary: number;
+  created_at: string;
+  updated_at: string;
+};
+
+export type FixedExpense = {
+  id: string;
+  user_id: string;
+  name: string;
+  amount: number;
   created_at: string;
   updated_at: string;
 };
@@ -53,22 +63,20 @@ export type ExpenseWithCategory = Expense & {
 };
 
 export type DashboardData = {
-  seedMoney: number;
-  seedCount: number;
-  budgetTotal: number;
   expenseTotal: number;
   byCategory: Array<{
     categoryId: string;
     categoryName: string;
-    budget: number;
     actual: number;
-    saved: number;
   }>;
   currentMonthlyDividend: number;
   targetMonthlyDividend: number;
   progressPercent: number;
   monthsToGoal: number | null;
   streakDays: number;
+  salary: number;
+  fixedExpense: number;
+  investableAmount: number;
 };
 
 export type TrendItem = {

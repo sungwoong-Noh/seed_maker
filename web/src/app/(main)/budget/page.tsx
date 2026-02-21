@@ -10,10 +10,5 @@ export default async function BudgetPage() {
 
   if (!user) redirect("/login");
 
-  const yearMonth =
-    new Date().getFullYear() +
-    "-" +
-    String(new Date().getMonth() + 1).padStart(2, "0");
-
-  return <BudgetForm userId={user.id} yearMonth={yearMonth} />;
+  return <BudgetForm userId={user.id} />;
 }

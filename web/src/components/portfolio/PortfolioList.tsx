@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useDividendStocks } from "@/hooks/useDividendStocks";
+import { useDividendGoal } from "@/hooks/useDividendGoal";
 import { AddStockModal } from "./AddStockModal";
 import { formatKRW } from "@/lib/format";
 import { BottomNav } from "@/components/common/BottomNav";
@@ -23,12 +24,15 @@ type Stock = {
 
 export function PortfolioList({ userId }: Props) {
   const { stocks, isLoading } = useDividendStocks(userId);
+  const { goal } = useDividendGoal(userId);
   const [showAdd, setShowAdd] = useState(false);
 
   const totalMonthlyDividend = stocks.reduce((sum, s) => {
     const annualDiv = Number(s.quantity) * Number(s.dividend_per_share);
     return sum + annualDiv / 12;
   }, 0);
+
+  const targetMonthlyDividend = goal ? Number(goal.target_monthly_dividend) : 0;
 
   if (isLoading) {
     return (
@@ -86,6 +90,19 @@ export function PortfolioList({ userId }: Props) {
           {stocks.map((s: Stock) => {
             const annualDiv = Number(s.quantity) * Number(s.dividend_per_share);
             const monthlyDiv = annualDiv / 12;
+
+            // 종목별 추가 매수 주수 계산
+            let sharesNeededText: string | null = null;
+            if (targetMonthlyDividend > 0 && Number(s.dividend_per_share) > 0) {
+              const shortfall = targetMonthlyDividend - totalMonthlyDividend;
+              if (shortfall <= 0) {
+                sharesNeededText = "🎉 목표 달성";
+              } else {
+                const sharesNeeded = Math.ceil((shortfall * 12) / Number(s.dividend_per_share));
+                sharesNeededText = `+${sharesNeeded}주 필요`;
+              }
+            }
+
             return (
               <div
                 key={s.id}
@@ -98,6 +115,11 @@ export function PortfolioList({ userId }: Props) {
                 <p className="text-sm text-gray-600">
                   {s.quantity}주 · 월 {formatKRW(monthlyDiv)} 배당
                 </p>
+                {sharesNeededText && (
+                  <p className={`text-xs font-semibold ${sharesNeededText.startsWith("🎉") ? "text-emerald-700" : "text-blue-700"}`}>
+                    목표 달성 위해 {sharesNeededText}
+                  </p>
+                )}
               </div>
             );
           })}

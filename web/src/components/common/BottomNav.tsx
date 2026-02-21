@@ -35,7 +35,7 @@ export function BottomNav() {
     },
     {
       href: "/budget",
-      label: "예산",
+      label: "고정지출",
       icon: (active: boolean) => (
         <Wallet
           className="w-6 h-6"

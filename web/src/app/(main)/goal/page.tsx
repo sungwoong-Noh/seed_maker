@@ -10,10 +10,5 @@ export default async function GoalPage() {
 
   if (!user) redirect("/login");
 
-  const yearMonth =
-    new Date().getFullYear() +
-    "-" +
-    String(new Date().getMonth() + 1).padStart(2, "0");
-
-  return <GoalForm userId={user.id} yearMonth={yearMonth} />;
+  return <GoalForm userId={user.id} />;
 }
