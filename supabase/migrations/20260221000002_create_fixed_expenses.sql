@@ -10,4 +10,3 @@ CREATE TABLE fixed_expenses (
 
 ALTER TABLE fixed_expenses ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Users can manage own fixed_expenses" ON fixed_expenses FOR ALL USING (auth.uid() = user_id);
-스크린샷 2026-02-21 오후 8.39.15
