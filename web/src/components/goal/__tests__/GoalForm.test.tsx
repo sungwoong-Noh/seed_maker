@@ -14,12 +14,10 @@ vi.mock("@/hooks/useDividendGoal", () => ({
   }),
 }));
 
-vi.mock("@/hooks/useDashboard", () => ({
-  useDashboard: () => ({
-    data: {
-      seedMoney: 500000,
-      currentMonthlyDividend: 1000,
-    },
+vi.mock("@/hooks/useDividendStocks", () => ({
+  useDividendStocks: () => ({
+    stocks: [],
+    isLoading: false,
   }),
 }));
 
@@ -62,24 +60,26 @@ describe("GoalForm", () => {
     expect(screen.getByRole("button", { name: "저장" })).toBeInTheDocument();
   });
 
-  it("씨앗돈 정보를 표시한다", async () => {
+  it("목표 설정 폼의 모든 입력 필드를 표시한다", async () => {
     render(<GoalForm {...defaultProps} />, { wrapper });
-    await waitFor(() => expect(screen.getByText(/이번 달 씨앗돈/)).toBeInTheDocument());
-    expect(screen.getByText(/월 총 납입 예상/)).toBeInTheDocument();
+    await waitFor(() => expect(screen.getByText("고정 급여 (월)")).toBeInTheDocument());
+    expect(screen.getByText("목표 월 배당금")).toBeInTheDocument();
+    expect(screen.getByText("추가 월 납입액")).toBeInTheDocument();
   });
 
-  it("목표 월 배당금·추가 납입 입력 후 저장 시 upsertGoal이 호출된다", async () => {
+  it("목표 월 배당금·급여·추가 납입 입력 후 저장 시 upsertGoal이 호출된다", async () => {
     mockUpsertGoal.mockResolvedValue(undefined);
 
     render(<GoalForm {...defaultProps} />, { wrapper });
 
     await waitFor(() => expect(screen.getByRole("button", { name: "저장" })).toBeInTheDocument());
 
-    const placeholders = ["1,000,000", "0"];
-    const amountInput = screen.getByPlaceholderText(placeholders[0]);
-    const extraInput = screen.getByPlaceholderText(placeholders[1]);
+    const salaryInput = screen.getByPlaceholderText("3,000,000");
+    const targetInput = screen.getByPlaceholderText("1,000,000");
+    const extraInput = screen.getByPlaceholderText("500,000");
 
-    fireEvent.change(amountInput, { target: { value: "1000000" } });
+    fireEvent.change(salaryInput, { target: { value: "3000000" } });
+    fireEvent.change(targetInput, { target: { value: "1000000" } });
     fireEvent.change(extraInput, { target: { value: "100000" } });
     fireEvent.click(screen.getByRole("button", { name: "저장" }));
 
@@ -87,6 +87,7 @@ describe("GoalForm", () => {
       expect(mockUpsertGoal).toHaveBeenCalledWith({
         target_monthly_dividend: 1000000,
         extra_monthly_deposit: 100000,
+        monthly_salary: 3000000,
       });
     });
   });

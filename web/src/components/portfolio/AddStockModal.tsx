@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useDividendStocks } from "@/hooks/useDividendStocks";
+import { formatNumberWithComma } from "@/lib/format";
 import { showSuccess, showError } from "@/lib/toast";
 import { Modal, ModalHeader, ModalBody } from "@/components/common/Modal";
 import { Input } from "@/components/common/Input";
@@ -76,30 +77,30 @@ export function AddStockModal({ userId, onClose, onSuccess }: Props) {
             label="보유 수량"
             type="text"
             inputMode="numeric"
-            value={quantity}
+            value={formatNumberWithComma(quantity)}
             onChange={(e) => setQuantity(e.target.value.replace(/\D/g, ""))}
             placeholder="10"
             required
           />
-          
+
           <Input
             label="주당 연 배당금 (원)"
             type="text"
             inputMode="decimal"
-            value={dividendPerShare}
+            value={formatNumberWithComma(dividendPerShare)}
             onChange={(e) => setDividendPerShare(e.target.value.replace(/[^\d.]/g, ""))}
-            placeholder="6500"
+            placeholder="6,500"
             helperText="연간 배당금 합계를 입력하세요"
             required
           />
-          
+
           <Input
             label="현재 주가 (원)"
             type="text"
             inputMode="numeric"
-            value={sharePrice}
+            value={formatNumberWithComma(sharePrice)}
             onChange={(e) => setSharePrice(e.target.value.replace(/\D/g, ""))}
-            placeholder="450000"
+            placeholder="450,000"
             required
           />
           

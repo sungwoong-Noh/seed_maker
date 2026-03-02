@@ -1,18 +1,78 @@
 # 현재 프로젝트 상태
 
-**마지막 업데이트**: 2026-02-21
+**마지막 업데이트**: 2026-03-02
 **작업자**: AI Assistant
 
 ---
 
 ## 🎯 현재 위치
 
-- **브랜치**: `feature/modal-icon-improvements`
-- **진행률**: **투자 가능 금액 & 고정지출 기능 추가 완료** ✅
+- **브랜치**: `feature/stock-search-improvement` (Phase 6 진행 중)
+- **진행률**: **Phase 7 지출 기능 개선 진행 중** 🔄
 
 ---
 
 ## ✅ 완료된 작업
+
+### [2026-03-02] Phase 7: 지출 기능 개선 ✅ 완료
+
+#### 월별 조회 + 수정/삭제 기능 + 포괄적 테스트
+
+**1. AddExpenseModal.tsx 수정 완료** ✅
+- `initialData` prop 추가 → 수정 모드 지원
+  - 추가 모드: initialData 없음 → `addExpense` 호출
+  - 수정 모드: initialData 있음 → `updateExpense` 호출
+- 모달 타이틀 조건부: "지출 추가" / "지출 수정"
+- 버튼 텍스트 조건부: "저장" / "수정 완료"
+- 금액 필드에 formatNumberWithComma 적용
+
+**2. ExpenseList.tsx 수정 완료** ✅
+- 월 네비게이션 UI 추가: `< YYYY년 MM월 >`
+  - 이전 달 버튼: `prevMonth()` 함수로 계산
+  - 다음 달 버튼: 현재 달까지만 활성화
+- `currentYearMonth` 상태 추가
+- 각 지출 항목에 수정(✏️) / 삭제(🗑️) 버튼 추가
+  - 수정: `editTarget` 상태 → AddExpenseModal에 initialData 전달
+  - 삭제: `window.confirm` 후 `deleteExpense` 호출
+- `useExpenses` 훅 updateExpense, deleteExpense 이미 완성
+
+**3. formatNumberWithComma 전체 적용** ✅
+- **AddExpenseModal**: 금액 필드에 1000 단위 콤마 포맷팅
+- **BudgetForm**: 고정지출 금액에 포맷팅 (placeholder "500,000")
+- **GoalForm**: 급여, 목표 배당금, 추가 납입액 (placeholder "3,000,000", "1,000,000", "500,000")
+- **AddStockModal**: 수량, 배당금, 주가 필드 포맷팅
+
+**4. Pencil 설계 업데이트 완료** ✅
+- 새 화면 추가: "2-2. 지출 목록"
+  - 헤더 (뒤로가기 + "지출 목록")
+  - 월 네비게이션 (`< 2026년 3월 >`)
+  - "지출 추가" 버튼
+  - 지출 항목 리스트 (수정/삭제 버튼 포함)
+  - 하단 네비게이션
+- 기존 "2-1. 지출 작성" 화면은 추가/수정 모드 모두 지원
+
+**5. 포괄적 테스트 완료** ✅ (전체 63개 통과, 0개 실패)
+- **AddExpenseModal.test.tsx**: 7개 통과
+  - 기본 폼 렌더링
+  - 저장 버튼 활성화
+  - addExpense 호출
+  - **수정 모드 타이틀 "지출 수정" 확인**
+  - **updateExpense 호출 검증**
+  - **추가/수정 모드 타이틀 차이 확인**
+- **GoalForm.test.tsx**: 3개 통과
+  - useDividendStocks 훅 모킹 추가
+  - 씨앗돈 개념 제거로 인한 UI 텍스트 업데이트
+  - monthly_salary 파라미터 검증
+- **BudgetForm.test.tsx**: 3개 통과
+  - useFixedExpenses 모킹
+  - formatNumberWithComma 검증
+- **format.test.ts**: 13개 통과 (formatNumberWithComma 포괄적 테스트)
+- **ExpenseList.test.tsx**: 6개 통과 (유틸 함수 단위 테스트)
+- **기타**: 31개 통과 (Modal, Button, Chart, 계산 함수)
+
+**다음 단계**: Phase 6 ETF 검색 개선 완료 후 병합
+
+---
 
 ### [2026-02-21] 투자 가능 금액 & 고정지출 기능 고도화
 
@@ -73,25 +133,16 @@
 
 ## 🔜 다음 작업 (우선순위)
 
-### 1. Pencil 화면 설계 업데이트 ⭐ 우선
-> 기능 변경 시 설계 → 구현 순서를 지켜야 함
+### 1. Phase 6 ETF 검색 개선 ⭐
+- [ ] AddStockModal 검색 기능 구현 (조회 버튼 → 실시간 검색)
+- [ ] API 엔드포인트 구현 (GET /api/stocks/search?q=...)
+- [ ] 설계 문서 업데이트
+- [ ] 관련 테스트 작성
 
-- [ ] 대시보드: 투자 가능 금액 중심으로 재설계
-- [ ] 고정지출 관리 화면 신규 설계
-- [ ] 목표 설정 화면: 급여 입력 필드 반영
-
-### 2. Supabase 마이그레이션 적용
-```sql
--- Supabase 대시보드 SQL Editor에서 순서대로 실행
--- 1. 20260221000000_add_monthly_salary.sql
--- 2. 20260221000002_create_fixed_expenses.sql
-```
-
-### 3. 검증
-- [ ] 목표 설정에서 급여 입력 → 저장 확인
-- [ ] 고정지출 페이지에서 항목 추가/삭제
-- [ ] 대시보드 투자 가능 금액 수식 확인 (급여 - 고정지출 - 실지출)
-- [ ] 포트폴리오 종목별 추가 매수 주수 표시 확인
+### 2. 병합 준비
+- [ ] Phase 6 완료
+- [ ] feature/stock-search-improvement → main 병합
+- [ ] 깃 히스토리 정리
 
 ---
 
@@ -146,7 +197,10 @@ seed_maker/
 │   ├── components/
 │   │   ├── dashboard/
 │   │   │   ├── Dashboard.tsx         # 투자 가능 금액 중심 UI
+│   │   │   ├── AddExpenseModal.tsx   # 지출 추가/수정 모달 (initialData 지원)
 │   │   │   └── BudgetChart.tsx       # 카테고리별 실지출 차트
+│   │   ├── expenses/
+│   │   │   └── ExpenseList.tsx       # 지출 목록 (월 네비게이션 + 수정/삭제)
 │   │   ├── budget/
 │   │   │   └── BudgetForm.tsx        # 고정지출 항목 추가/삭제
 │   │   ├── portfolio/
@@ -154,16 +208,17 @@ seed_maker/
 │   │   └── goal/
 │   │       └── GoalForm.tsx          # 급여 입력 포함
 │   ├── hooks/
-│   │   ├── useFixedExpenses.ts       # 고정지출 CRUD (신규)
+│   │   ├── useExpenses.ts            # 지출 CRUD (updateExpense, deleteExpense 완성)
+│   │   ├── useFixedExpenses.ts       # 고정지출 CRUD
 │   │   ├── useDividendGoal.ts        # monthly_salary 포함
 │   │   └── useDividendStocks.ts
-│   └── types/index.ts                # DividendGoal, DashboardData 업데이트
+│   └── types/index.ts                # ExpenseWithCategory 포함
 ├── supabase/migrations/
 │   ├── 20260221000000_add_monthly_salary.sql
 │   ├── 20260221000001_add_monthly_fixed_expense.sql (미사용)
 │   └── 20260221000002_create_fixed_expenses.sql
 └── designs/
-    └── 화면기획서_1.pen              # ⚠️ Pencil 업데이트 필요
+    └── 화면기획서_1.pen              # ✅ Phase 7 지출 목록 화면 추가
 ```
 
 ---
