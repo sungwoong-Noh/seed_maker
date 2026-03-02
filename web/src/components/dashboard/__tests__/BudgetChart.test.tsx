@@ -15,8 +15,8 @@ describe("BudgetChart", () => {
         <BudgetChart data={mockData} />
       </div>
     );
-    expect(screen.getByRole("region", { name: /카테고리별 예산 대비 실지출/ })).toBeInTheDocument();
-    expect(screen.getByText("카테고리별 예산 vs 실지출")).toBeInTheDocument();
+    expect(screen.getByRole("region", { name: /카테고리별 실지출 차트/ })).toBeInTheDocument();
+    expect(screen.getByText("카테고리별 지출")).toBeInTheDocument();
   });
 
   it("데이터가 비어있으면 null을 반환한다", () => {
@@ -34,6 +34,6 @@ describe("BudgetChart", () => {
         <BudgetChart data={dataWithZero} />
       </div>
     );
-    expect(screen.getByText("카테고리별 예산 vs 실지출")).toBeInTheDocument();
+    expect(screen.getByText("카테고리별 지출")).toBeInTheDocument();
   });
 });

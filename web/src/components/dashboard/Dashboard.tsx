@@ -2,6 +2,16 @@
 
 import { useState } from "react";
 import dynamic from "next/dynamic";
+import {
+  Utensils,
+  Train,
+  Film,
+  ShoppingBag,
+  Activity,
+  Package,
+  Tag,
+  Plus,
+} from "lucide-react";
 import { useDashboard } from "@/hooks/useDashboard";
 import { useDashboardTrend } from "@/hooks/useDashboardTrend";
 import { useExpenses } from "@/hooks/useExpenses";
@@ -36,6 +46,21 @@ type Props = {
   userId: string;
   yearMonth: string;
 };
+
+// 카테고리별 아이콘 컴포넌트 매핑
+const categoryIconComponents: Record<string, React.ReactNode> = {
+  "식비": <Utensils size={20} className="text-emerald-700" />,
+  "교통": <Train size={20} className="text-emerald-700" />,
+  "문화": <Film size={20} className="text-emerald-700" />,
+  "쇼핑": <ShoppingBag size={20} className="text-emerald-700" />,
+  "의료": <Activity size={20} className="text-emerald-700" />,
+  "기타": <Package size={20} className="text-emerald-700" />,
+  "default": <Tag size={20} className="text-emerald-700" />,
+};
+
+function getCategoryIconComponent(categoryName: string): React.ReactNode {
+  return categoryIconComponents[categoryName] || categoryIconComponents["default"];
+}
 
 export function Dashboard({ userId, yearMonth }: Props) {
   const { data, isLoading, error } = useDashboard(userId, yearMonth);
@@ -172,7 +197,9 @@ export function Dashboard({ userId, yearMonth }: Props) {
                   className="flex items-center justify-between h-10"
                 >
                   <div className="flex items-center gap-3">
-                    <span className="text-2xl">{getCategoryIcon(categoryName)}</span>
+                    <div className="w-5 h-5 flex items-center justify-center">
+                      {getCategoryIconComponent(categoryName)}
+                    </div>
                     <span className="text-base font-semibold text-gray-900">{formatKRW(e.amount)}</span>
                   </div>
                   <span className="text-sm text-gray-600">{daysAgo}</span>
@@ -192,10 +219,10 @@ export function Dashboard({ userId, yearMonth }: Props) {
       {/* FAB */}
       <button
         onClick={() => setShowAddModal(true)}
-        className="fixed bottom-24 right-4 flex h-14 w-14 items-center justify-center rounded-full bg-blue-700 text-white shadow-lg hover:bg-blue-800 hover:scale-105 active:scale-95 transition-transform duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"
+        className="fixed bottom-24 right-4 flex h-14 w-14 items-center justify-center rounded-full bg-emerald-700 text-white shadow-lg hover:bg-emerald-800 hover:scale-105 active:scale-95 transition-transform duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2"
         aria-label="지출 추가"
       >
-        <span className="text-[32px] font-semibold leading-none">+</span>
+        <Plus size={24} strokeWidth={3} />
       </button>
 
       {showAddModal && (

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useFixedExpenses } from "@/hooks/useFixedExpenses";
-import { formatKRW } from "@/lib/format";
+import { formatKRW, formatNumberWithComma } from "@/lib/format";
 import { showSuccess, showError } from "@/lib/toast";
 import { BottomNav } from "@/components/common/BottomNav";
 
@@ -94,9 +94,9 @@ export function BudgetForm({ userId }: Props) {
             <input
               type="text"
               inputMode="numeric"
-              value={amount}
+              value={formatNumberWithComma(amount)}
               onChange={(e) => setAmount(e.target.value.replace(/\D/g, ""))}
-              placeholder="0"
+              placeholder="500,000"
               className="flex-1 text-base text-gray-900 bg-transparent outline-none"
             />
           </div>

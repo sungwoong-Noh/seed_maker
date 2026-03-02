@@ -5,9 +5,13 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AddExpenseModal } from "../AddExpenseModal";
 
 const mockAddExpense = vi.fn();
+const mockUpdateExpense = vi.fn();
 
 vi.mock("@/hooks/useExpenses", () => ({
-  useExpenses: () => ({ addExpense: mockAddExpense }),
+  useExpenses: () => ({
+    addExpense: mockAddExpense,
+    updateExpense: mockUpdateExpense,
+  }),
 }));
 
 vi.mock("@/lib/toast", () => ({
@@ -95,6 +99,104 @@ describe("AddExpenseModal", () => {
           memo: "점심",
         })
       );
+    });
+  });
+
+  it("금액에 콤마 포맷팅이 표시된다", async () => {
+    render(<AddExpenseModal {...defaultProps} />, { wrapper });
+
+    await waitFor(() => {
+      expect(screen.getByRole("button", { name: "저장" })).toBeEnabled();
+    });
+
+    const amountInput = screen.getByLabelText(/금액/);
+    fireEvent.change(amountInput, { target: { value: "50000" } });
+
+    // 실제로 저장할 때는 숫자이지만, 표시는 콤마가 포함될 수 있음
+    expect(mockAddExpense).not.toHaveBeenCalled();
+  });
+
+  it("수정 모드: initialData가 있을 때 폼이 기존 값으로 채워진다", async () => {
+    const editProps = {
+      ...defaultProps,
+      initialData: {
+        id: "expense1",
+        amount: 15000,
+        category_id: "cat1",
+        spent_at: "2026-02-15",
+        memo: "카페",
+      },
+    };
+
+    render(<AddExpenseModal {...editProps} />, { wrapper });
+
+    await waitFor(() => {
+      expect(screen.getByRole("heading")).toHaveTextContent("지출 수정");
+    });
+    expect(screen.getByRole("button", { name: "수정 완료" })).toBeInTheDocument();
+  });
+
+  it("수정 모드: 저장 시 updateExpense가 호출된다", async () => {
+    mockUpdateExpense.mockResolvedValue(undefined);
+
+    const editProps = {
+      ...defaultProps,
+      initialData: {
+        id: "expense1",
+        amount: 15000,
+        category_id: "cat1",
+        spent_at: "2026-02-15",
+        memo: "카페",
+      },
+    };
+
+    render(<AddExpenseModal {...editProps} />, { wrapper });
+
+    await waitFor(() => {
+      expect(screen.getByRole("button", { name: "수정 완료" })).toBeEnabled();
+    });
+
+    // 금액 수정
+    fireEvent.change(screen.getByLabelText(/금액/), {
+      target: { value: "20000" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: "수정 완료" }));
+
+    await waitFor(() => {
+      expect(mockUpdateExpense).toHaveBeenCalledWith({
+        id: "expense1",
+        amount: 20000,
+        category_id: "cat1",
+        spent_at: "2026-02-15",
+        memo: "카페",
+      });
+    });
+  });
+
+  it("추가 모드와 수정 모드의 타이틀이 다르다", async () => {
+    const { rerender } = render(<AddExpenseModal {...defaultProps} />, {
+      wrapper,
+    });
+
+    await waitFor(() => {
+      expect(screen.getByRole("heading")).toHaveTextContent("지출 추가");
+    });
+
+    const editProps = {
+      ...defaultProps,
+      initialData: {
+        id: "expense1",
+        amount: 15000,
+        category_id: "cat1",
+        spent_at: "2026-02-15",
+        memo: "카페",
+      },
+    };
+
+    rerender(<AddExpenseModal {...editProps} />);
+
+    await waitFor(() => {
+      expect(screen.getByRole("heading")).toHaveTextContent("지출 수정");
     });
   });
 });

@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useDividendGoal } from "@/hooks/useDividendGoal";
 import { useDividendStocks } from "@/hooks/useDividendStocks";
-import { formatKRW } from "@/lib/format";
+import { formatKRW, formatNumberWithComma } from "@/lib/format";
 import { simulateMonthsToGoal } from "@/lib/simulation";
 import { showSuccess, showError } from "@/lib/toast";
 import { BottomNav } from "@/components/common/BottomNav";
@@ -92,7 +92,7 @@ function GoalFormFields({ goal, currentDividend, upsertGoal }: GoalFormFieldsPro
             <input
               type="text"
               inputMode="numeric"
-              value={monthlySalary}
+              value={formatNumberWithComma(monthlySalary)}
               onChange={(e) =>
                 setMonthlySalary(e.target.value.replace(/\D/g, ""))
               }
@@ -110,7 +110,7 @@ function GoalFormFields({ goal, currentDividend, upsertGoal }: GoalFormFieldsPro
             <input
               type="text"
               inputMode="numeric"
-              value={targetMonthlyDividend}
+              value={formatNumberWithComma(targetMonthlyDividend)}
               onChange={(e) =>
                 setTargetMonthlyDividend(e.target.value.replace(/\D/g, ""))
               }
@@ -128,11 +128,11 @@ function GoalFormFields({ goal, currentDividend, upsertGoal }: GoalFormFieldsPro
             <input
               type="text"
               inputMode="numeric"
-              value={extraMonthlyDeposit}
+              value={formatNumberWithComma(extraMonthlyDeposit)}
               onChange={(e) =>
                 setExtraMonthlyDeposit(e.target.value.replace(/\D/g, ""))
               }
-              placeholder="0"
+              placeholder="500,000"
               className="flex-1 text-base text-gray-900 bg-transparent outline-none"
             />
           </div>
